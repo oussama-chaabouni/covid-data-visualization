@@ -26,7 +26,11 @@ function renderBarChart(title) {
 
     var xKey = ""
     var yKey = ""
-    var focusHeight = 100
+    var tip = d3
+        .tip()
+        .attr('class', 'd3-tip')
+        .offset([-50, 20])
+        .html(function(d) { return  "<strong>Value:</strong> <span style='color:red'>" + d[yKey] + "</span>"; });
 
 
     var chart = function (id) {
@@ -37,13 +41,7 @@ function renderBarChart(title) {
             .attr('height', height - margin.top - margin.bottom + 250)
             .attr("viewBox", [0, 0, width, height + 50]);
 
-
         var height2 = +svg.attr("height") - margin2.top - margin2.bottom;
-
-
-        //   const defaultSelection = [x(d3.utcYear.offset(x.domain()[1], -1)), x.range()[1]];
-
-
         const x = d3.scaleTime()
             .domain(d3.extent(data, (d) => d.date))                              //data.length=3 /**/ d3.range(data.length):   Returns [0,1,2,3]
             .range([margin.left, width - margin.right])
@@ -62,15 +60,9 @@ function renderBarChart(title) {
             .domain(y.domain())
             .range([height2, 0])
 
-        // var xAxis = d3.axisBottom(x),
-        //     xAxis2 = d3.axisBottom(x2),
-        //     yAxis = d3.axisLeft(y);
-
-
         var brush = d3.brushX()
             .extent([[50, 0], [width - 50, height2 + 3]])
             .on("brush end", brushed);
-
 
         var line = d3.line()
             .x(d => x(d[xKey]))
@@ -79,8 +71,6 @@ function renderBarChart(title) {
         var line2 = d3.line()
             .x(d => x2(d[xKey]))
             .y(d => y2(d[yKey] > 0 ? d[yKey] : 0 ))
-
-
 
         var g = svg.append("g")
 
@@ -96,12 +86,12 @@ function renderBarChart(title) {
 
         var focus = svg.append("g")
             .attr("class", "focus")
-            .attr("transform", "translate(" + margin.left + "," + margin.top-30 + ")");
+            .attr("transform", `translate(0,${margin.top - 30})`);
 
 
         var context = svg.append("g")
             .attr("class", "context")
-            .attr("transform", "translate(" + 1 + "," + margin2.top + ")");
+            .attr("transform", "translate(0," + margin2.top + ")");
 
 
         focus.append("path")
@@ -109,7 +99,27 @@ function renderBarChart(title) {
             .attr("class", "line")
             .attr("d", line)
             .attr("stroke", "steelblue")
-            .attr("fill", "none");
+            .attr("fill", "none")
+
+        var addCircles = (g) => {
+            g.selectAll("circle")
+                .data(data)
+                .join("circle")
+                .attr("cx", d => x(d[xKey]))
+                .attr("cy", d => y(d[yKey] > 0 ? d[yKey] : 0 ))
+                .attr("r", 3)
+                .attr("stroke", "steelblue")
+                .attr("fill", "#FFF")
+                .on('mouseover', tip.show)
+                .on('mouseout', tip.hide);
+        }
+
+
+        focus.append("g")
+            .attr("class", "circles")
+            .call(addCircles);
+
+        svg.call(tip)
 
         focus.append("g")
             .attr("class", "axis axis--x")
@@ -141,6 +151,7 @@ function renderBarChart(title) {
             .selectAll("text")
             .attr("y", 0)
             .attr("x", 40)
+            .attr("x", 40)
             .attr("dy", ".35em")
             .attr("transform", "rotate(60)")
 
@@ -154,10 +165,10 @@ function renderBarChart(title) {
             x.domain(s.map(x2.invert, x2));
 
             focus.select(".line").attr("d", line);
+            focus.select(".circles").call(addCircles);
             focus.select(".axis--x").call(xAxis)
 
         }
-
 
         function yAxis(g) {
             g.attr("transform", `translate(${margin.left},0)`)
@@ -168,114 +179,16 @@ function renderBarChart(title) {
         }
 
         function xAxis(g) {
-            g.attr("transform", `translate(0,${height + 100 - margin.bottom - 100})`)
+            g.attr("transform", `translate(0,${height - margin.bottom})`)
                 .call(d3.axisBottom(x))
                 .attr("font-size", '12px')
         }
 
         function xAxis2(g) {
-            g.attr("transform", `translate(0,${height - 100 - margin.bottom - 80})`)
+            g.attr("transform", `translate(0,${height - 180 - margin.bottom})`)
                 .call(d3.axisBottom(x2))
                 .attr("font-size", '12px')
         }
-
-
-
-        function addTooltip() {
-            // Création d'un groupe qui contiendra tout le tooltip plus le cercle de suivi
-            var tooltip = svg.append("g")
-                .attr("id", "tooltip")
-                .style("display", "none");
-
-
-            // Le cercle extérieur bleu clair
-            tooltip.append("circle")
-                .attr("fill", "#CCE5F6")
-                .attr("r", 10);
-
-            // Le cercle intérieur bleu foncé
-            tooltip.append("circle")
-                .attr("fill", "#3498db")
-                .attr("stroke", "#fff")
-                .attr("stroke-width", "1.5px")
-                .attr("r", 4);
-
-            // Le tooltip en lui-même avec sa pointe vers le bas
-            // Il faut le dimensionner en fonction du contenu
-            tooltip.append("polyline")
-                .attr("points","0,0 0,40 55,40 60,45 65,40 120,40 120,0 0,0")
-                .style("fill", "#fafafa")
-                .style("stroke","#3498db")
-                .style("opacity","0.9")
-                .style("stroke-width","1")
-                .attr("transform", "translate(-60, -55)");
-
-            // Cet élément contiendra tout notre texte
-            var text = tooltip.append("text")
-                .style("font-size", "13px")
-                .style("font-family", "Segoe UI")
-                .style("color", "#333333")
-                .style("fill", "#333333")
-                .attr("transform", "translate(-50, -40)");
-
-            // Element pour la date avec positionnement spécifique
-            text.append("tspan")
-                .attr("dx", "-5")
-                .attr("class", "tooltip-date");
-
-            // Positionnement spécifique pour le petit rond	bleu
-            text.append("tspan")
-                .style("fill", "#3498db")
-                .attr("dx", "-70")
-                .attr("dy", "15")
-                .text("●");
-
-            // Le texte "Cours : "
-            text.append("tspan")
-                .attr("dx", "4")
-                .text("Value : ");
-
-            // Le texte pour la valeur de l'or à la date sélectionnée
-            text.append("tspan")
-                .attr("class", "tooltip-close")
-                .style("font-weight", "bold");
-
-            return tooltip;
-        }
-
-
-        var tooltip = addTooltip();
-        var bisectDate = d3.bisector(d => d[xKey]).left;
-        svg.append("rect")
-            .attr("class", "overlay")
-            .attr("width", width-margin.right)
-            .attr("height", height-margin.bottom)
-            .attr("x",50)
-            .attr("y",60)
-
-            .on("mouseover", function() {
-                tooltip.style("display", null);
-            })
-            .on("mouseout", function() {
-                tooltip.style("display", "none");
-            })
-            .on("mousemove", mousemove);
-
-
-        function mousemove() {
-            var x0 = x.invert(d3.mouse(this)[0]),
-                i = bisectDate(data, x0),
-                d = data[i];
-
-            tooltip.attr("transform", "translate(" + x(d[xKey]) + "," + y(d[yKey]) + ")");
-
-            d3.selectAll('.tooltip-date')
-                .text(d[xKey].getUTCFullYear()+"/"+ (d[xKey].getMonth() + 1) + "/"+ d[xKey].getUTCDate() );
-            d3.selectAll('.tooltip-close')
-                .text(d[yKey]);
-        }
-
-
         g.node();
     }
 
@@ -312,14 +225,14 @@ function renderBarChart(title) {
 }
 
 
-Promise.all(["TUN","FRA"].map(ctry => d3.json("http://localhost:7070/data?country=" + ctry)
+Promise.all(["TUN"].map(ctry => d3.json("http://localhost:7070/data?country=" + ctry)
     .then(data => {
         Object.keys(data.data[data.data.length - 1]).filter(item => item !== "date").filter(item => item !== "date").forEach((item) => {
             renderBarChart(ctry + " : " + item)
                 .data(
                     data
                         .data
-                        .filter(item => item.date > "2020-06-01" && item.date < "2021-07-01")
+                        .filter(item => item.date > "2020-06-01" && item.date < "2021-08-01")
                         .map((item) => Object.assign({}, item, {date: new Date(item.date)}))
                 )
                 .xKey('date')
