@@ -366,7 +366,7 @@ function renderBarChart(title) {
 }
 
 
-Promise.all(["TUN", "FRA"].map(ctry => d3.json("http://localhost:7070/data?country=" + ctry)
+Promise.all(["TUN"].map(ctry => d3.json("http://localhost:7070/data?country=" + ctry)
     .then(data => {
         Object.keys(data.data[data.data.length - 1]).filter(item => item !== "date").forEach((item) => {
             renderBarChart(ctry + " : " + item)
