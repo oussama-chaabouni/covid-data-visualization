@@ -153,12 +153,12 @@ function renderBarChart(title) {
 
         var focus = svg.append("g")
             .attr("class", "focus")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            .attr("transform", "translate(" + margin.left + "," + margin.top-30 + ")");
 
 
         var context = svg.append("g")
             .attr("class", "context")
-            .attr("transform", "translate(" + margin.left + "," + margin2.top + ")");
+            .attr("transform", "translate(" + 1 + "," + margin2.top + ")");
 
 
         focus.append("path")
@@ -283,7 +283,7 @@ function renderBarChart(title) {
             // Positionnement spécifique pour le petit rond	bleu
             text.append("tspan")
                 .style("fill", "#3498db")
-                .attr("dx", "-280")
+                .attr("dx", "-70")
                 .attr("dy", "15")
                 .text("●");
 
@@ -306,7 +306,10 @@ function renderBarChart(title) {
         svg.append("rect")
             .attr("class", "overlay")
             .attr("width", width)
-            .attr("height", height)
+            .attr("height", height-margin.bottom)
+            .attr("x",100)
+            .attr("y",70)
+
             .on("mouseover", function() {
                 tooltip.style("display", null);
             })
@@ -324,7 +327,7 @@ function renderBarChart(title) {
             tooltip.attr("transform", "translate(" + x(d[xKey]) + "," + y(d[yKey]) + ")");
 
             d3.select('#tooltip-date')
-                .text(d[xKey]);
+                .text(d[xKey].getUTCFullYear()+"/"+ (d[xKey].getMonth() + 1) + "/"+ d[xKey].getUTCDate() );
             d3.select('#tooltip-close')
                 .text(d[yKey]);
         }
