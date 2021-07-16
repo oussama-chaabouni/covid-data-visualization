@@ -1,60 +1,3 @@
-const data = [
-    {letter: "A", frequency: .05167},
-    {letter: "B", frequency: .01492},
-    {letter: "C", frequency: .02782},
-    {letter: "D", frequency: .04253},
-    {letter: "E", frequency: .12702},
-    {letter: "F", frequency: .02288},
-    {letter: "G", frequency: .02015},
-    {letter: "H", frequency: .06094},
-    {letter: "I", frequency: .06966},
-    {letter: "J", frequency: .00153},
-    {letter: "K", frequency: .00772},
-    {letter: "L", frequency: .04025},
-    {letter: "M", frequency: .02406},
-    {letter: "N", frequency: .06749},
-    {letter: "O", frequency: .07507},
-    {letter: "P", frequency: .01929},
-    {letter: "Q", frequency: .00095},
-    {letter: "R", frequency: .05987},
-    {letter: "S", frequency: .06327},
-    {letter: "T", frequency: .09056},
-    {letter: "U", frequency: .02758},
-    {letter: "V", frequency: .00978},
-    {letter: "W", frequency: .02360},
-    {letter: "X", frequency: .00150},
-    {letter: "Y", frequency: .01974},
-    {letter: "Z", frequency: .00074},
-];
-
-const data2 = [
-    {letter: "A", frequency: .09167},
-    {letter: "B", frequency: .11492},
-    {letter: "C", frequency: .02782},
-    {letter: "D", frequency: .06253},
-    {letter: "E", frequency: .14702},
-    {letter: "F", frequency: .02288},
-    {letter: "G", frequency: .06015},
-    {letter: "H", frequency: .06094},
-    {letter: "I", frequency: .07966},
-    {letter: "J", frequency: .00153},
-    {letter: "K", frequency: .04772},
-    {letter: "L", frequency: .04025},
-    {letter: "M", frequency: .02406},
-    {letter: "N", frequency: .06749},
-    {letter: "O", frequency: .07507},
-    {letter: "P", frequency: .01929},
-    {letter: "Q", frequency: .00095},
-    {letter: "R", frequency: .05987},
-    {letter: "S", frequency: .06327},
-    {letter: "T", frequency: .09056},
-    {letter: "U", frequency: .02758},
-    {letter: "V", frequency: .00978},
-    {letter: "W", frequency: .02360},
-    {letter: "X", frequency: .00150},
-    {letter: "Y", frequency: .01974},
-    {letter: "Z", frequency: .00074},
-];
 
 const width = 1900;
 const height = 950;
@@ -278,7 +221,7 @@ function renderBarChart(title) {
             // Element pour la date avec positionnement spécifique
             text.append("tspan")
                 .attr("dx", "-5")
-                .attr("id", "tooltip-date");
+                .attr("class", "tooltip-date");
 
             // Positionnement spécifique pour le petit rond	bleu
             text.append("tspan")
@@ -289,12 +232,12 @@ function renderBarChart(title) {
 
             // Le texte "Cours : "
             text.append("tspan")
-                .attr("dx", "5")
+                .attr("dx", "4")
                 .text("Value : ");
 
             // Le texte pour la valeur de l'or à la date sélectionnée
             text.append("tspan")
-                .attr("id", "tooltip-close")
+                .attr("class", "tooltip-close")
                 .style("font-weight", "bold");
 
             return tooltip;
@@ -305,10 +248,10 @@ function renderBarChart(title) {
         var bisectDate = d3.bisector(d => d[xKey]).left;
         svg.append("rect")
             .attr("class", "overlay")
-            .attr("width", width)
+            .attr("width", width-margin.right)
             .attr("height", height-margin.bottom)
-            .attr("x",100)
-            .attr("y",70)
+            .attr("x",50)
+            .attr("y",60)
 
             .on("mouseover", function() {
                 tooltip.style("display", null);
@@ -326,9 +269,9 @@ function renderBarChart(title) {
 
             tooltip.attr("transform", "translate(" + x(d[xKey]) + "," + y(d[yKey]) + ")");
 
-            d3.select('#tooltip-date')
+            d3.selectAll('.tooltip-date')
                 .text(d[xKey].getUTCFullYear()+"/"+ (d[xKey].getMonth() + 1) + "/"+ d[xKey].getUTCDate() );
-            d3.select('#tooltip-close')
+            d3.selectAll('.tooltip-close')
                 .text(d[yKey]);
         }
 
@@ -369,9 +312,9 @@ function renderBarChart(title) {
 }
 
 
-Promise.all(["TUN"].map(ctry => d3.json("http://localhost:7070/data?country=" + ctry)
+Promise.all(["TUN","FRA"].map(ctry => d3.json("http://localhost:7070/data?country=" + ctry)
     .then(data => {
-        Object.keys(data.data[data.data.length - 1]).filter(item => item !== "date").forEach((item) => {
+        Object.keys(data.data[data.data.length - 1]).filter(item => item !== "date").filter(item => item !== "date").forEach((item) => {
             renderBarChart(ctry + " : " + item)
                 .data(
                     data
