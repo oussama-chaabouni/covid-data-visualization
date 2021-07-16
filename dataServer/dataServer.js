@@ -28,11 +28,11 @@ var download2 = function(url, dest, httpResp) {
         file.on('finish', function() {
             file.close();
             console.log("finishhhhhhhhhh")
-            httpResp.render('pages/index', {test: "finish"})
+            httpResp.render('./pages', {test: "finish"})
         });
     });
 }
-
+//https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.json
 app.get('/download', (request, response) => {
     // schedule.scheduleJob('35 18 * * *', () => {
     download2(
