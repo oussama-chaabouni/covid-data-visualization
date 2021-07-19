@@ -29,8 +29,8 @@ function renderBarChart(title) {
     var tip = d3
         .tip()
         .attr('class', 'd3-tip')
-        .offset([-50, 20])
-        .html(function(d) { return  "<strong>Value:</strong> <span style='color:red'>" + d[yKey] + "</span>"; });
+        .offset([-30, 0])
+
 
 
     var chart = function (id) {
@@ -39,7 +39,10 @@ function renderBarChart(title) {
             .append('svg')
             .attr('width', width - margin.left - margin.right)
             .attr('height', height - margin.top - margin.bottom + 250)
-            .attr("viewBox", [0, 0, width, height + 50]);
+            .attr("viewBox", [0, 0, width, height + 50])
+    // .on('mousemove', function() {
+    //         console.log( d3.event.pageX, d3.event.pageY ) // log the mouse x,y position
+    //     });
 
         var height2 = +svg.attr("height") - margin2.top - margin2.bottom;
         const x = d3.scaleTime()
@@ -86,20 +89,43 @@ function renderBarChart(title) {
 
         var focus = svg.append("g")
             .attr("class", "focus")
-            .attr("transform", `translate(0,${margin.top - 30})`);
+       //     .attr("transform", `translate(0,${margin.top - 30})`);
 
 
         var context = svg.append("g")
             .attr("class", "context")
             .attr("transform", "translate(0," + margin2.top + ")");
 
+        var bisect = d3.bisector(function(d) { return d[xKey]; }).left;
 
+
+        var  mousemove = () => {
+            // recover coordinate we need
+            var x0 = x.invert(d3.event.pageX);
+            var i = bisect(data, x0,1);
+            var selectedData = data[i]
+                tip.html(function(d) { return  "<strong>Value:</strong> <span style='color:red'>" + selectedData[yKey] + "</span>"; });
+            g.selectAll("circle")
+                .data(data)
+                .join("circle")
+                .attr("cx", x(selectedData[xKey]))
+                .attr("cy", y(selectedData[yKey]))
+                .attr("r", 3)
+            //    .attr("transform", `translate(-18,${margin.top - 30})`)
+                .attr("stroke", "steelblue")
+                .attr("fill", "#FFF")
+                .on('mouseover', tip.show)
+                .on('mouseout', tip.hide);
+
+        }
         focus.append("path")
             .datum(data)
             .attr("class", "line")
             .attr("d", line)
             .attr("stroke", "steelblue")
             .attr("fill", "none")
+            .on("mousemove", mousemove)
+            .on('mouseout', mouseout);
 
         var addCircles = (g) => {
             g.selectAll("circle")
@@ -115,9 +141,41 @@ function renderBarChart(title) {
         }
 
 
+
+        function mouseout() {
+            focus.selectAll("circle").remove()
+
+        }
+
+
         focus.append("g")
             .attr("class", "circles")
-            .call(addCircles);
+        //    .on('mouseout',function() {
+        //            return focus.selectAll("circle").remove()});
+
+
+/*
+        focus
+            .on('mouseover', function() {
+                return focus.append("g")
+                          .attr("class", "circles")
+
+                            .selectAll("circle")
+                            .data(data)
+
+                            .join("circle")
+
+                            .attr("cx", d => x(d[xKey]))
+                            .attr("cy", d => y(d[yKey] > 0 ? d[yKey] : 0 ))
+                            .attr("r", 3)
+                            .attr("stroke", "steelblue")
+                            .attr("fill", "#FFF")
+                            .on('mouseover', tip.show)
+                            .on('mouseout', tip.hide)
+            })
+            .on('mouseout',function() {
+                return focus.selectAll("circle").remove()});
+*/
 
         svg.call(tip)
 
@@ -165,7 +223,7 @@ function renderBarChart(title) {
             x.domain(s.map(x2.invert, x2));
 
             focus.select(".line").attr("d", line);
-            focus.select(".circles").call(addCircles);
+            focus.select(".circles").on("mousemove", mousemove);
             focus.select(".axis--x").call(xAxis)
 
         }
