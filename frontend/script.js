@@ -29,7 +29,7 @@ function renderBarChart(title) {
     var tip = d3
         .tip()
         .attr('class', 'd3-tip')
-        .offset([-30, 0])
+        .offset([-10, 0])
 
 
 
@@ -40,13 +40,11 @@ function renderBarChart(title) {
             .attr('width', width - margin.left - margin.right)
             .attr('height', height - margin.top - margin.bottom + 250)
             .attr("viewBox", [0, 0, width, height + 50])
-    // .on('mousemove', function() {
-    //         console.log( d3.event.pageX, d3.event.pageY ) // log the mouse x,y position
-    //     });
+
 
         var height2 = +svg.attr("height") - margin2.top - margin2.bottom;
         const x = d3.scaleTime()
-            .domain(d3.extent(data, (d) => d.date))                              //data.length=3 /**/ d3.range(data.length):   Returns [0,1,2,3]
+            .domain(d3.extent(data, (d) => d.date))
             .range([margin.left, width - margin.right])
 
 
@@ -55,7 +53,7 @@ function renderBarChart(title) {
             .range([height - margin.bottom, margin.top])
 
         const x2 = d3.scaleTime()
-            .domain(x.domain())                              //data.length=3 /**/ d3.range(data.length):   Returns [0,1,2,3]
+            .domain(x.domain())
             .range([margin.left, width - margin.right])
 
 
@@ -75,7 +73,6 @@ function renderBarChart(title) {
             .x(d => x2(d[xKey]))
             .y(d => y2(d[yKey] > 0 ? d[yKey] : 0 ))
 
-        var g = svg.append("g")
 
 
         svg .append("clipPath")
@@ -91,6 +88,25 @@ function renderBarChart(title) {
             .attr("class", "focus")
        //     .attr("transform", `translate(0,${margin.top - 30})`);
 
+        var  mousemove = function(e) {
+            // recover coordinate we need
+            focus.selectAll("circle").remove();
+            var x0 = x.invert(d3.mouse(this)[0]);
+            var i = bisect(data, x0, 1);
+            var selectedData = data[i]
+            tip.html(function(d) { return  "<strong>Value:</strong> <span style='color:red'>" + selectedData[yKey] + "</span>"; });
+
+            focus.append("circle")
+                .attr("cx", x(selectedData[xKey]))
+                .attr("cy", y(selectedData[yKey]))
+                .attr("r", 3)
+                //    .attr("transform", `translate(-18,${margin.top - 30})`)
+                .attr("stroke", "steelblue")
+                .attr("fill", "#FFF")
+                .on('mouseover', tip.show)
+                .on('mouseout', tip.hide);
+        }
+
 
         var context = svg.append("g")
             .attr("class", "context")
@@ -99,83 +115,24 @@ function renderBarChart(title) {
         var bisect = d3.bisector(function(d) { return d[xKey]; }).left;
 
 
-        var  mousemove = () => {
-            // recover coordinate we need
-            var x0 = x.invert(d3.event.pageX);
-            var i = bisect(data, x0,1);
-            var selectedData = data[i]
-                tip.html(function(d) { return  "<strong>Value:</strong> <span style='color:red'>" + selectedData[yKey] + "</span>"; });
-            g.selectAll("circle")
-                .data(data)
-                .join("circle")
-                .attr("cx", x(selectedData[xKey]))
-                .attr("cy", y(selectedData[yKey]))
-                .attr("r", 3)
-            //    .attr("transform", `translate(-18,${margin.top - 30})`)
-                .attr("stroke", "steelblue")
-                .attr("fill", "#FFF")
-                .on('mouseover', tip.show)
-                .on('mouseout', tip.hide);
 
-        }
         focus.append("path")
             .datum(data)
             .attr("class", "line")
             .attr("d", line)
             .attr("stroke", "steelblue")
             .attr("fill", "none")
+
+
+        focus.append("rect")
+            .attr("x",  margin.left)
+            .attr("y",  margin.top)
+            .attr("width",  width - margin.left - margin.right)
+            .attr("height",  height - margin.top - margin.bottom)
+            .attr('fill', "transparent")
             .on("mousemove", mousemove)
-            .on('mouseout', mouseout);
-
-        var addCircles = (g) => {
-            g.selectAll("circle")
-                .data(data)
-                .join("circle")
-                .attr("cx", d => x(d[xKey]))
-                .attr("cy", d => y(d[yKey] > 0 ? d[yKey] : 0 ))
-                .attr("r", 3)
-                .attr("stroke", "steelblue")
-                .attr("fill", "#FFF")
-                .on('mouseover', tip.show)
-                .on('mouseout', tip.hide);
-        }
 
 
-
-        function mouseout() {
-            focus.selectAll("circle").remove()
-
-        }
-
-
-        focus.append("g")
-            .attr("class", "circles")
-        //    .on('mouseout',function() {
-        //            return focus.selectAll("circle").remove()});
-
-
-/*
-        focus
-            .on('mouseover', function() {
-                return focus.append("g")
-                          .attr("class", "circles")
-
-                            .selectAll("circle")
-                            .data(data)
-
-                            .join("circle")
-
-                            .attr("cx", d => x(d[xKey]))
-                            .attr("cy", d => y(d[yKey] > 0 ? d[yKey] : 0 ))
-                            .attr("r", 3)
-                            .attr("stroke", "steelblue")
-                            .attr("fill", "#FFF")
-                            .on('mouseover', tip.show)
-                            .on('mouseout', tip.hide)
-            })
-            .on('mouseout',function() {
-                return focus.selectAll("circle").remove()});
-*/
 
         svg.call(tip)
 
@@ -209,16 +166,16 @@ function renderBarChart(title) {
             .selectAll("text")
             .attr("y", 0)
             .attr("x", 40)
-            .attr("x", 40)
             .attr("dy", ".35em")
             .attr("transform", "rotate(60)")
 
         context.append("g")
             .attr("class", "brush")
             .call(brush)
-            .call(brush.move, x.range()); //[x.range()[0] + 200, x.range()[1]]
+            .call(brush.move, x.range());
 
         function brushed() {
+            focus.selectAll('circle').remove()
             var s = d3.event.selection || x2.range();
             x.domain(s.map(x2.invert, x2));
 
@@ -247,7 +204,7 @@ function renderBarChart(title) {
                 .call(d3.axisBottom(x2))
                 .attr("font-size", '12px')
         }
-        g.node();
+        svg.node();
     }
 
 
