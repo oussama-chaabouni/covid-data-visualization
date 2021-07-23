@@ -1,4 +1,4 @@
-.toolbar{
+.navbar{
     position: absolute;
     width: 1920px;
     height: 111px;
@@ -8,25 +8,79 @@
     background: linear-gradient(180deg, rgba(255, 246, 240, 0.38) 0%, rgba(251, 232, 233, 0.31) 57.44%, rgba(252, 252, 255, 0.57) 100%);
 }
 
+.navbar-right{
+    float: right;
+}
+
 .about{
     position: absolute;
-    width: 95px;
-    height: 40px;
-    left: 1647px;
-    top: 46px;
+    left: 85.78%;
+    right: 12.14%;
+    top: 41.44%;
+    bottom: 22.52%;
+
+  /*  filter: invert(97%) sepia(2%) saturate(7500%) hue-rotate(293deg) brightness(110%) contrast(108%);*/
+
+}
+#about-text{
+    position: absolute;
+    width: 43px;
+    height: 17px;
+    right: 178px;
+    top: 58px;
+
+    font-family: ABeeZee;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    /* identical to box height */
+
+    letter-spacing: 0.5px;
+
+    color: #FFF6F0;
+}
+
+#rect{
+    position: absolute;
+    width: 106px;
+    height: 47px;
+    left: 1643px;
+    top: 43px;
+
+    background: #6F6C99;
+    border-radius: 10px;
 }
 
 .github{
     position: absolute;
-    width: 99px;
+    width: 40px;
     height: 40px;
     left: 1779px;
     top: 46px;
+
+    background: url(./assets/github-logo.png);
 }
 .home{
     position: absolute;
-    width: 88px;
-    height: 21px;
-    left: 233px;
-    top: 50px;
+    left: 11.56%;
+    right: 86.35%;
+    top: 37.73%;
+    bottom: 26.23%;
+
+    display: flex;
+    align-items: center;
+    width: 100px;
+    justify-content: space-between;
+    font-size: 23px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+#home-icon{
+    margin-right: 10px;
+}
+.navbar a:hover {
+    background-color: #ddd;
+    color: black;
 }

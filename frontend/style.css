@@ -1,3 +1,12 @@
+#body{
+    overflow: hidden;
+    width: 500px;
+    position: relative;
+    height: 700px;
+}
+
+
+
 .landing_page{
     position: fixed;
 
@@ -22,11 +31,11 @@
 
 
 #start{
-    position: fixed;
-    width: 15%;
-    height: 10%;
+    position: absolute;
+    width: 40%;
+    height: 15%;
     left: 35%;
-    top: 65%;
+    top: 90%;
 
     right: 35%;
     max-width: 360px;
@@ -48,7 +57,7 @@
 
 
 #container1{
-    position: fixed;
+    position: absolute;
     width: 40%;
     height: 55%;
     left: 20%;
@@ -57,6 +66,8 @@
     right: 40%;
     max-width: 460px;
     min-width: 360px;
+    max-height: 460px;
+    min-height: 360px;
     background: #391156;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
@@ -66,15 +77,15 @@
 
 #covid-19{
     position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 15%;
-    top: 5%;
+    width: 70%;
+    height: 30%;
+    left: 20%;
+    top: -10%;
 
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
-    font-size: 80px;
+    font-size: 300%;
     line-height: 94px;
     /* identical to box height */
 
@@ -84,50 +95,44 @@
 
 #Data-Visualisation{
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: 20%;
     left: 5%;
-    top: 30%;
-
+    top: 15%;
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
-    font-size: 50px;
+    font-size: 260%;
     line-height: 59px;
-    /* identical to box height */
-
-
+    margin-top: 20px;
+    margin-bottom: 20px;
     color: #FFFFFF;
 }
 
 #para1{
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: 10%;
     left: 5%;
-    top: 60%;
-
+    top: 50%;
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
-    font-size: 30px;
+    font-size: 25px;
     line-height: 35px;
-
     color: #FFFFFF;
 }
 #para2{
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: 10%;
     left: 5%;
-    top: 80%;
-
+    top: 65%;
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
-    font-size: 30px;
+    font-size: 25px;
     line-height: 35px;
-
     color: #FFFFFF;
 }
 
@@ -142,29 +147,31 @@ and (max-device-width : 360px)
     }
     #container1{
 
-        left: 0%;
+        left: 10%;
         top: 10%;
 
 
     }
     #covid-19{
-        left: 7%;
+        left: 24%;
 
     }
     #Data-Visualisation{
-        left: 2%;
+        left: 5%;
         text-align: center;
         font-size: 310%;
 
     }
     #para1{
         text-align: center;
-        left: 0%;
-        top: 65%;
+        left: 3%;
+        top: 55%;
     }
     #para2{
         text-align: center;
         left: 2%;
+        top: 70%;
+
     }
     #start{
         width: 150px;
@@ -175,37 +182,40 @@ and (max-device-width : 360px)
 
 @media only screen
 and (min-device-width : 375px)
-and (max-device-width : 375px)
+and (max-device-width : 380px)
 {
+    #body{
+        overflow: hidden;
+        position: relative;
+    }
     .landing_page{
-
         background-position: bottom;
     }
     #container1{
 
-        left: 2%;
-        top: 10%;
+        left: 15%;
+        top: 20%;
 
 
     }
     #covid-19{
-        left: 7%;
+        left: 12%;
+        text-align: center;
 
     }
     #Data-Visualisation{
-        left: 2%;
+        left: 3%;
         text-align: center;
-        font-size: 310%;
 
     }
     #para1{
         text-align: center;
-        left: 0%;
-        top: 65%;
+        left: 2%;
+        top: 50%;
     }
     #para2{
         text-align: center;
-        left: 2%;
+        left: 4%;
     }
     #start{
         width: 150px;
@@ -224,28 +234,29 @@ and (max-device-width : 414px)
     }
     #container1{
 
-        left: 7%;
+        left: 4%;
         top: 10%;
 
     }
     #covid-19{
-        left: 5%;
+        left: 15%;
+        text-align: center;
 
     }
     #Data-Visualisation{
-        left: 2%;
+        left: 4%;
+        top:20% ;
         text-align: center;
-        font-size: 310%;
 
     }
     #para1{
         text-align: center;
-        left: 0%;
-        top: 65%;
+        left: 3%;
+        top: 50%;
     }
     #para2{
         text-align: center;
-        left: 2%;
+        left: 4%;
     }
     #start{
         width: 150px;
@@ -264,13 +275,13 @@ and (max-device-width : 411px)
     }
     #container1{
 
-        left: 8%;
+        left: 5%;
         top: 10%;
 
     }
 
     #covid-19{
-        left: 5%;
+        left: 22%;
 
     }
     #Data-Visualisation{
@@ -281,12 +292,13 @@ and (max-device-width : 411px)
     }
     #para1{
         text-align: center;
-        left: 0%;
-        top: 65%;
+        left: 3%;
+        top: 55%;
     }
     #para2{
         text-align: center;
         left: 2%;
+        top: 70%;
     }
     #start{
         width: 150px;
@@ -296,22 +308,7 @@ and (max-device-width : 411px)
 
 }
 
-@media only screen
-and (min-device-width : 500px)
-{
-    #container1{
 
-        left: 20%;
-        top: 10%;
-
-    }
-    #start{
-        width: 150px;
-        left: 40%;
-
-    }
-
-}
 
 
 @media only screen
@@ -360,37 +357,6 @@ and (max-device-width : 320px)
     }
 }
 
-.toolbar{
-    position: absolute;
-    width: 1920px;
-    height: 111px;
-    left: 0px;
-    top: -3px;
 
-    background: linear-gradient(180deg, rgba(255, 246, 240, 0.38) 0%, rgba(251, 232, 233, 0.31) 57.44%, rgba(252, 252, 255, 0.57) 100%);
-}
-
-.about{
-    position: absolute;
-    width: 95px;
-    height: 40px;
-    left: 1647px;
-    top: 46px;
-}
-
-.github{
-    position: absolute;
-    width: 99px;
-    height: 40px;
-    left: 1779px;
-    top: 46px;
-}
-.home{
-    position: absolute;
-    width: 88px;
-    height: 21px;
-    left: 233px;
-    top: 50px;
-}
 
 
