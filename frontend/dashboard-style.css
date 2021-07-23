@@ -1,0 +1,32 @@
+.toolbar{
+    position: absolute;
+    width: 1920px;
+    height: 111px;
+    left: 0px;
+    top: -3px;
+
+    background: linear-gradient(180deg, rgba(255, 246, 240, 0.38) 0%, rgba(251, 232, 233, 0.31) 57.44%, rgba(252, 252, 255, 0.57) 100%);
+}
+
+.about{
+    position: absolute;
+    width: 95px;
+    height: 40px;
+    left: 1647px;
+    top: 46px;
+}
+
+.github{
+    position: absolute;
+    width: 99px;
+    height: 40px;
+    left: 1779px;
+    top: 46px;
+}
+.home{
+    position: absolute;
+    width: 88px;
+    height: 21px;
+    left: 233px;
+    top: 50px;
+}
