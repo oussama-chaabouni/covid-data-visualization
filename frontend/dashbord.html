@@ -8,18 +8,40 @@
 <body>
 <div class="navbar">
 
-    <a class="home" href="#home"><img src="./assets/home-logo.svg" id="home-icon">Home</a>
+    <a class="home" href="#home"><img src="./assets/home-logo.svg" class="home-icon">Home</a>
 
 
     <div class="navbar-right">
-        <a class="about" href="#about"><img src="./assets/about-logo.svg" id="about-icon">About</a>
-        <a class="github" href="#github"><img src="./assets/github-logo.svg" id="github-icon">Github</a>
+        <a class="about" href="#about"><img src="./assets/about-logo.svg" class="about-icon">About</a>
+        <a class="github" href="#github"><img src="./assets/github-logo.svg" class="github-icon">Github</a>
 
     </div>
 
-
+    <a class="menu"><img src="./assets/menu.svg" id="menu-icon"></a>
 </div>
 
+<div class="overlay">
+    <a class="close">&times;</a>
+    <div class="overlay__content">
+        <a class="about-mobile"><img src="./assets/about-logo.svg" class="about-icon">About</a>
+        <a class="github-mobile"><img src="./assets/github-logo.svg" class="github-icon">Github</a>
+    </div>
+</div>
+<script>
+    const doc = document;
+    const menuOpen = doc.querySelector(".menu");
+    const menuClose = doc.querySelector(".close");
+    const overlay = doc.querySelector(".overlay");
+
+    menuOpen.addEventListener("click", () => {
+        overlay.classList.add("overlay--active");
+    });
+
+    menuClose.addEventListener("click", () => {
+        overlay.classList.remove("overlay--active");
+    });
+
+</script>
 
 </body>
 </html>

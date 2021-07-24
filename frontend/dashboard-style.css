@@ -10,6 +10,7 @@ body {
     justify-content: flex-end;
     align-items: center;
     padding: 5px 5%;
+    height: 70px;
 }
 
 .navbar-right {
@@ -57,7 +58,6 @@ body {
     font-weight: normal;
     font-size: 14px;
     line-height: 17px;
-    /* identical to box height */
 
     letter-spacing: 0.5px;
     text-decoration: none;
@@ -75,15 +75,17 @@ body {
     font-weight: normal;
     font-size: 14px;
     line-height: 17px;
-    /* identical to box height */
 
     letter-spacing: 0.5px;
     text-decoration: none;
 }
 
-#home-icon, #about-icon, #github-icon {
+.home-icon, .about-icon, .github-icon {
     width: 30%;
     padding-left: 16px;
+}
+#menu-icon{
+    margin: 5px;
 }
 
 .navbar a:hover {
@@ -96,4 +98,87 @@ body {
     width: 300px;
     height: 100px;
     justify-content: space-between;
+}
+
+.menu {
+    display: none;
+}
+
+
+
+.overlay {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    background-color: #FFF6F0;
+    overflow-x: hidden;
+    transition: width 0.5s ease 0s;
+}
+
+.overlay--active {
+    width: 100%;
+}
+
+.overlay__content {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.overlay a {
+    padding: 15px;
+    transition: color 0.3s ease 0s;
+    color: #5F5E76;
+    display: flex;
+    align-items: center;
+    width: 40%;
+    justify-content: space-between;
+    font-family: ABeeZee;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+
+    letter-spacing: 0.5px;
+    text-decoration: none;
+}
+
+
+.overlay a:hover,
+.overlay a:focus {
+    color: #0088a9;
+}
+.overlay .close {
+    position: absolute;
+    top: 5%;
+    right: -22%;
+    font-size: 60px;
+    color: #5F5E76;
+}
+
+@media screen and (max-height: 450px) {
+    .overlay a {
+        font-size: 20px;
+    }
+    .overlay .close {
+        font-size: 40px;
+        top: 15px;
+        right: 35px;
+    }
+
+}
+
+@media only screen and (max-width: 800px) {
+    .navbar-right
+     {
+        display: none;
+    }
+    .menu {
+        display: initial;
+    }
 }
