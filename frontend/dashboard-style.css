@@ -1,47 +1,42 @@
-.navbar{
-    position: absolute;
-    width: 1920px;
-    height: 111px;
-    left: 0px;
-    top: -3px;
+body {
+    margin: 0px;
+}
 
+
+.navbar {
     background: linear-gradient(180deg, rgba(255, 246, 240, 0.38) 0%, rgba(251, 232, 233, 0.31) 57.44%, rgba(252, 252, 255, 0.57) 100%);
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 5px 5%;
 }
 
-.navbar-right{
+.navbar-right {
     float: right;
+    display: block;
 }
 
-.about{
-    position: absolute;
-    left: 85.78%;
-    right: 12.14%;
-    top: 41.44%;
-    bottom: 22.52%;
+.about {
 
-  /*  filter: invert(97%) sepia(2%) saturate(7500%) hue-rotate(293deg) brightness(110%) contrast(108%);*/
-
-}
-#about-text{
-    position: absolute;
-    width: 43px;
-    height: 17px;
-    right: 178px;
-    top: 58px;
-
+    display: flex;
+    align-items: center;
+    width: 100px;
+    justify-content: space-between;
     font-family: ABeeZee;
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
     line-height: 17px;
-    /* identical to box height */
 
     letter-spacing: 0.5px;
+    text-decoration: none;
+    /*  filter: invert(97%) sepia(2%) saturate(7500%) hue-rotate(293deg) brightness(110%) contrast(108%);*/
 
-    color: #FFF6F0;
 }
 
-#rect{
+
+#rect {
     position: absolute;
     width: 106px;
     height: 47px;
@@ -52,35 +47,53 @@
     border-radius: 10px;
 }
 
-.github{
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    left: 1779px;
-    top: 46px;
+.github {
+    display: flex;
+    align-items: center;
+    width: 100px;
+    justify-content: space-between;
+    font-family: ABeeZee;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    /* identical to box height */
 
-    background: url(./assets/github-logo.png);
+    letter-spacing: 0.5px;
+    text-decoration: none;
 }
-.home{
-    position: absolute;
-    left: 11.56%;
-    right: 86.35%;
-    top: 37.73%;
-    bottom: 26.23%;
+
+.home {
+    margin-right: auto;
 
     display: flex;
     align-items: center;
     width: 100px;
     justify-content: space-between;
-    font-size: 23px;
-    font-weight: 700;
+    font-family: ABeeZee;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    /* identical to box height */
+
+    letter-spacing: 0.5px;
     text-decoration: none;
 }
 
-#home-icon{
-    margin-right: 10px;
+#home-icon, #about-icon, #github-icon {
+    width: 30%;
+    padding-left: 16px;
 }
+
 .navbar a:hover {
     background-color: #ddd;
     color: black;
+}
+
+.navbar-right {
+    display: flex;
+    width: 300px;
+    height: 100px;
+    justify-content: space-between;
 }
