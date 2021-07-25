@@ -1,5 +1,6 @@
 body {
     margin: 0px;
+    overflow: hidden;
 }
 
 
@@ -84,7 +85,8 @@ body {
     width: 30%;
     padding-left: 16px;
 }
-#menu-icon{
+
+#menu-icon {
     margin: 5px;
 }
 
@@ -103,7 +105,6 @@ body {
 .menu {
     display: none;
 }
-
 
 
 .overlay {
@@ -153,6 +154,7 @@ body {
 .overlay a:focus {
     color: #0088a9;
 }
+
 .overlay .close {
     position: absolute;
     top: 5%;
@@ -161,24 +163,439 @@ body {
     color: #5F5E76;
 }
 
+
+
+.page-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    align-content: flex-end;
+    position: absolute;
+    width: 161.67px;
+    height: 79px;
+    left: 79px;
+    top: 152px;
+}
+
+
+.title {
+    height: 35px;
+    left: 0%;
+    right: 55.52%;
+    top: calc(50% - 35px / 2 - 11px);
+
+    font-family: ABeeZee;
+    font-style: italic;
+    font-weight: normal;
+    font-size: 30px;
+    line-height: 35px;
+
+
+    color: #4C4C66;
+
+    mix-blend-mode: normal;
+    opacity: 0.9;
+}
+
+.title-text {
+    height: 15px;
+    left: 0.57%;
+    right: 0%;
+    top: calc(50% - 15px / 2 + 22px);
+
+    font-family: ABeeZee;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 15px;
+
+
+    color: #6F6C99;
+
+    opacity: 0.7;
+}
+
+.filter-data {
+    width: 88px;
+    height: 21px;
+    left: 369px;
+    top: 216px;
+
+    font-family: ABeeZee;
+    font-style: italic;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+
+    color: #6F6C99;
+    margin-top: 50px;
+}
+
+
+.filter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-flow: row wrap;
+    align-content: flex-end;
+    min-height: 199px;
+    max-height: 434px;
+    gap: 5px;
+    max-width: 971px;
+    margin-left: 23%;
+}
+
+.total-cases {
+    width: 190px;
+    height: 74px;
+    left: 509px;
+    top: 148px;
+    border-color: #807DBA;
+    background: #807DBA;
+    border-radius: 10px;
+
+}
+
+.total-cases-text {
+    height: 19px;
+    left: 23.16%;
+    right: 32.63%;
+    top: calc(50% - 19px / 2 - 14.5px);
+
+    font-family: ABeeZee;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+
+    text-align: right;
+
+
+    color: #FFFFFF;
+}
+
+.up-graph {
+    left: 32.11%;
+    right: 51.05%;
+    top: 61.85%;
+    bottom: 25.14%;
+    margin-right: 10px;
+}
+
+.up-logo {
+    left: 58.95%;
+    right: 37.89%;
+    top: 63.51%;
+    bottom: 28.38%;
+    margin-right: 10px;
+
+}
+
+.percentage {
+    height: 13px;
+    left: 65.79%;
+    right: 13.16%;
+    top: calc(50% - 13px / 2 + 13.5px);
+
+    font-family: ABeeZee;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 13px;
+
+
+
+    color: #FFFFFF;
+}
+
+.new-cases {
+    width: 190px;
+    height: 74px;
+    left: 719px;
+    top: 148px;
+
+    mix-blend-mode: normal;
+    /* Dark / 3 */
+
+    border: 1px solid #E2E2E8;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: transparent;
+}
+
+.button-text {
+    height: 19px;
+    left: 21.58%;
+    right: 35.79%;
+    top: calc(50% - 19px / 2 - 13.5px);
+    width: 50%;
+    font-family: ABeeZee;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+
+    text-align: right;
+
+
+    color: #4C4C66;
+
+    mix-blend-mode: normal;
+    opacity: 0.7;
+}
+
+.down-graph-not-selected {
+    left: 32.11%;
+    right: 51.05%;
+    top: 39.85%;
+    bottom: 25.14%;
+
+}
+
+.percentage-negative {
+    height: 13px;
+    left: 67.37%;
+    right: 11.58%;
+    top: calc(50% - 13px / 2 + 13.5px);
+
+    font-family: ABeeZee;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 13px;
+
+
+
+    color: #E3507A;
+}
+
+.percentage-positive {
+    height: 13px;
+    left: 67.37%;
+    right: 11.58%;
+    top: calc(50% - 13px / 2 + 13.5px);
+
+    font-family: ABeeZee;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 13px;
+
+
+
+    color: #2BB596;
+}
+
+.total-deaths {
+    width: 190px;
+    height: 74px;
+    left: 929px;
+    top: 148px;
+
+    mix-blend-mode: normal;
+
+    border: 1px solid #E2E2E8;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: transparent;
+}
+
+.new-deaths {
+    width: 190px;
+    height: 74px;
+    left: 1145px;
+    top: 148px;
+
+    mix-blend-mode: normal;
+
+    border: 1px solid #E2E2E8;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: transparent;
+
+}
+
+.new-vaccinations {
+    width: 190px;
+    height: 74px;
+    left: 1362px;
+    top: 148px;
+
+    mix-blend-mode: normal;
+
+    border: 1px solid #E2E2E8;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: transparent;
+
+}
+
+.total-cases-per-million {
+    width: 190px;
+    height: 74px;
+    left: 509px;
+    top: 234px;
+
+    mix-blend-mode: normal;
+
+    border: 1px solid #E2E2E8;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: transparent;
+
+}
+
+.new-cases-per-million {
+    width: 190px;
+    height: 74px;
+    left: 719px;
+    top: 234px;
+
+    mix-blend-mode: normal;
+
+    border: 1px solid #E2E2E8;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: transparent;
+}
+
+.total-deaths-per-million {
+    width: 190px;
+    height: 74px;
+    left: 929px;
+    top: 234px;
+
+    mix-blend-mode: normal;
+
+    border: 1px solid #E2E2E8;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: transparent;
+}
+
+.new-deaths-per-million {
+    width: 190px;
+    height: 74px;
+    left: 929px;
+    top: 234px;
+
+    mix-blend-mode: normal;
+
+    border: 1px solid #E2E2E8;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: transparent;
+}
+
+.total-vaccinations-per-hundred {
+    width: 190px;
+    height: 74px;
+    left: 1362px;
+    top: 233px;
+
+    mix-blend-mode: normal;
+
+    border: 1px solid #E2E2E8;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: transparent;
+
+}
+.button-text-vaccine{
+    font-size: 14px;
+
+    height: 19px;
+    left: 21.58%;
+    right: 35.79%;
+    top: calc(50% - 19px / 2 - 13.5px);
+    width: 50%;
+    font-family: ABeeZee;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 19px;
+
+    text-align: right;
+
+
+    color: #4C4C66;
+
+    mix-blend-mode: normal;
+    opacity: 0.7;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+
+}
+
+.new-cases:hover, .total-deaths:hover, .new-deaths:hover, .new-vaccinations:hover, .total-cases-per-million:hover,
+.total-deaths:hover, .new-cases-per-million:hover, .total-deaths-per-million:hover,
+.new-deaths-per-million:hover, .total-vaccinations-per-hundred:hover {
+
+    background: linear-gradient(180deg, rgba(255, 246, 240, 0.38) 0%, rgba(251, 232, 233, 0.31) 57.44%, rgba(252, 252, 255, 0.57) 100%);
+
+}
 @media screen and (max-height: 450px) {
     .overlay a {
         font-size: 20px;
     }
+
     .overlay .close {
         font-size: 40px;
         top: 15px;
         right: 35px;
     }
 
+
 }
 
 @media only screen and (max-width: 800px) {
-    .navbar-right
-     {
+    .navbar-right {
         display: none;
     }
+
     .menu {
         display: initial;
     }
+
+    .total-cases,.new-cases,.total-deaths,.new-deaths,.new-vaccinations,
+    .total-cases-per-million,.new-cases-per-million,.new-deaths-per-million,.total-deaths-per-million,.total-vaccinations-per-hundred{
+        width: 177px;
+        height: 60px;
+    }
+    .button-text-vaccine{
+        font-size: 13px;
+    }
+    .filter {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+        flex-flow: row wrap;
+        align-content: flex-end;
+        min-height: 204px;
+        max-height: 723px;
+        gap: 5px;
+        max-width: 971px;
+        margin-left:0px;
+        margin-top:70px
+    }
+
+    .page-title{
+        width: 174.67px;
+        height: 60px;
+        left: 108px;
+        top: 73px;
+
+    }
+    .filter-data{
+        margin-top: 0px;
+    }
+
 }
