@@ -540,6 +540,104 @@ body {
     background: linear-gradient(180deg, rgba(255, 246, 240, 0.38) 0%, rgba(251, 232, 233, 0.31) 57.44%, rgba(252, 252, 255, 0.57) 100%);
 
 }
+
+
+
+.radio-selection:first-of-type {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 5px;
+}
+
+label {
+
+}
+
+.choice {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+
+    border: 2px solid #999;
+    transition: 0.2s all linear;
+    margin-right: 5px;
+
+    position: relative;
+    top: 4px;
+}
+
+.world-text,.country-text{
+    font-family: ABeeZee;
+    font-style: italic;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    margin-right: 15px;
+    line-height: 32px;
+    color: #6F6C99;
+}
+
+
+.choice:checked {
+    background-color: #807DBA;
+}
+
+#cities{
+    width: 232px;
+    height: 31px;
+    left: 620px;
+    top: 369px;
+
+    border: 1px solid #6F6C99;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+.radio-selection{
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-flow: row wrap;
+    align-content: flex-end;
+    min-height: 75px;
+    max-height: 427px;
+}
+
+.date-selection{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+#start,#end{
+    border: 1px solid #6F6C99;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+#start-label,#end-label{
+    font-family: ABeeZee;
+    font-style: italic;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    margin-right: 15px;
+    line-height: 32px;
+    color: #6F6C99;
+}
+#end-label{
+    margin-left: 50px;
+}
+#world-country-container{
+    margin-right: 195px;
+    margin-bottom: 10px;
+}
+
+
 @media screen and (max-height: 450px) {
     .overlay a {
         font-size: 20px;
@@ -598,4 +696,29 @@ body {
         margin-top: 0px;
     }
 
+
+    .radio-selection{
+        width: 370px;
+        height: 147px;
+        left: 50px;
+    }
+
+    #world-country-container{
+        margin-left: 20px;
+        margin-right: 0px;
+
+    }
+    .date-selection{
+        width: 390px;
+        height: 37px;
+
+    }
+    #end-label {
+        margin-left: 0px;
+    }
+
+    #start-label, #end-label {
+        width: 50px;
+        margin-right: 0;
+    }
 }

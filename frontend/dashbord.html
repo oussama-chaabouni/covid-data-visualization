@@ -3,6 +3,8 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Title</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
     <link rel="stylesheet" href="dashboard-style.css">
 </head>
 <body>
@@ -122,6 +124,36 @@
 </div>
 
 
+<div class="radio-selection">
+    <div id="world-country-container">
+    <input type="radio" class="choice"
+            value="world" name="selec" checked >
+    <label class="world-text" >World Map</label><br>
+
+    <input type="radio" class="choice"
+            value="country" name="selec">
+    <label class="country-text">Select a Country</label>
+        <select id="cities">
+            <option></option>
+        </select>
+    </div>
+
+    <div class="date-selection">
+        <label id="start-label">Date From</label>
+
+        <input type="date" id="start" name="trip-start"
+               value="2020-07-22"
+               min="2020-01-01" max="2021-12-31">
+
+        <label id="end-label">Date To</label>
+
+        <input type="date" id="end" name="trip-start"
+               min="2020-01-01" >
+    </div>
+</div>
+
+
+
 <script>
     const doc = document;
     const menuOpen = doc.querySelector(".menu");
@@ -135,6 +167,23 @@
     menuClose.addEventListener("click", () => {
         overlay.classList.remove("overlay--active");
     });
+
+    d3.json("./assets/counties.json").then(function(data){ console.log(data)
+
+        for(var i = 0; i < data.length; i++) {
+
+            var op = document.createElement('option')
+            op.setAttribute("value", data[i]["alpha-3"]);
+            op.append(document.createTextNode(data[i].name));
+            document.getElementById("cities").appendChild(op);
+
+        }
+
+    })
+
+    document.getElementById('end').valueAsDate = new Date();
+
+
 
 </script>
 
