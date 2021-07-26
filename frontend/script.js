@@ -239,7 +239,43 @@ function renderBarChart(title) {
     return chart
 }
 
+function selectCountry() {
 
+    var e = document.getElementById("cities");
+    var y = e.value
+var begin=document.getElementById("start").value;
+    var end=document.getElementById("end").value;
+    console.log(begin)
+
+    Promise.all([y].map(ctry => d3.json("http://localhost:7070/data?country=" + ctry)
+        .then(data => {
+            ["total_cases"].filter(item => item !== "date").filter(item => item !== "date").forEach((item) => {
+                renderBarChart(ctry + " : " + item)
+                    .data(
+                        data
+                            .data
+                            .filter(item => item.date > begin && item.date < end)
+                            .map((item) => Object.assign({}, item, {date: new Date(item.date)}))
+                    )
+                    .xKey('date')
+                    .yKey(item)
+                    .width(800)
+                    .height(500)("covid");
+            })
+
+        })))
+    var myobj=document.getElementById('covid')
+    var elem = document.querySelector("#covid")
+    console.log(elem.childNodes.length)
+    if (elem.childNodes.length!=0) {
+        myobj.innerHTML="";
+    }
+
+}
+
+
+
+/*
 Promise.all(["TUN"].map(ctry => d3.json("http://localhost:7070/data?country=" + ctry)
     .then(data => {
         Object.keys(data.data[data.data.length - 1]).filter(item => item !== "date").filter(item => item !== "date").forEach((item) => {
@@ -257,7 +293,7 @@ Promise.all(["TUN"].map(ctry => d3.json("http://localhost:7070/data?country=" + 
         })
 
     })))
-
+*/
 
 /*
 Promise.all(["FRA", "TUN"].map(ctry => d3.json("http://localhost:7070/data?country="+ ctry)

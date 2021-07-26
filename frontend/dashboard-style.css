@@ -1,6 +1,6 @@
 body {
     margin: 0px;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 
@@ -38,16 +38,7 @@ body {
 }
 
 
-#rect {
-    position: absolute;
-    width: 106px;
-    height: 47px;
-    left: 1643px;
-    top: 43px;
 
-    background: #6F6C99;
-    border-radius: 10px;
-}
 
 .github {
     display: flex;
@@ -549,9 +540,7 @@ body {
     margin-bottom: 5px;
 }
 
-label {
 
-}
 
 .choice {
     -webkit-appearance: none;
@@ -637,6 +626,57 @@ label {
     margin-bottom: 10px;
 }
 
+.line, .circles {
+    fill: none;
+    clip-path: url(#clip);
+}
+
+.overlay {
+    fill: none;
+    pointer-events: all;
+}
+
+.d3-tip {
+    line-height: 1;
+    font-weight: bold;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 2px;
+    max-width: 100px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+    box-sizing: border-box;
+    display: inline;
+    font-size: 10px;
+    width: 100%;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.8);
+    content: "\25BC";
+    position: absolute;
+    text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+    margin: -1px 0 0 0;
+    top: 100%;
+    left: 0;
+}
+
+
+#covid{
+    margin-left: 30%;
+    margin-right: 30%;
+    margin-top:5%;
+}
+
+
+
+
+
 
 @media screen and (max-height: 450px) {
     .overlay a {
@@ -709,16 +749,34 @@ label {
 
     }
     .date-selection{
-        width: 390px;
+        width: 356px;
         height: 37px;
 
     }
     #end-label {
         margin-left: 0px;
     }
-
-    #start-label, #end-label {
+    #start,#end{
+         height: 32px;
+    }
+    #start-label {
         width: 50px;
         margin-right: 0;
+        font-size: 11px;
+    }
+    #end-label {
+        width: 37px;
+        margin-right: 0;
+        font-size: 11px;
+    }
+    #covid{
+        margin-right: 0;
+        margin-left: 15px;
+        margin-top: 43px;
+
+    }
+    svg{
+        width: 350px;
+        height: 300px;
     }
 }

@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Title</title>
     <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="../node_modules/d3-tip/dist/index.js"></script>
 
     <link rel="stylesheet" href="dashboard-style.css">
 </head>
@@ -133,8 +134,8 @@
     <input type="radio" class="choice"
             value="country" name="selec">
     <label class="country-text">Select a Country</label>
-        <select id="cities">
-            <option></option>
+        <select id="cities" onchange="selectCountry()">
+            <option value="a"></option>
         </select>
     </div>
 
@@ -143,16 +144,16 @@
 
         <input type="date" id="start" name="trip-start"
                value="2020-07-22"
-               min="2020-01-01" max="2021-12-31">
+               min="2020-01-01" max="2021-12-31" onchange="selectCountry()">
 
         <label id="end-label">Date To</label>
 
         <input type="date" id="end" name="trip-start"
-               min="2020-01-01" >
+               min="2020-01-01" onchange="selectCountry()">
     </div>
 </div>
 
-
+<div id="covid" ></div>
 
 <script>
     const doc = document;
@@ -186,6 +187,7 @@
 
 
 </script>
+<script src="script.js"></script>
 
 </body>
 </html>
