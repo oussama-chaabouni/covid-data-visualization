@@ -247,10 +247,10 @@ var begin=document.getElementById("start").value;
     var end=document.getElementById("end").value;
     console.log(begin)
 
-    Promise.all([y].map(ctry => d3.json("http://localhost:7070/data?country=" + ctry)
+    d3.json("http://localhost:7070/data?country=" + y)
         .then(data => {
             ["total_cases"].filter(item => item !== "date").filter(item => item !== "date").forEach((item) => {
-                renderBarChart(ctry + " : " + item)
+                renderBarChart(y + " : " + item)
                     .data(
                         data
                             .data
@@ -263,12 +263,18 @@ var begin=document.getElementById("start").value;
                     .height(500)("covid");
             })
 
-        })))
+        })
     var myobj=document.getElementById('covid')
     var elem = document.querySelector("#covid")
     console.log(elem.childNodes.length)
     if (elem.childNodes.length!=0) {
         myobj.innerHTML="";
+    }
+
+    function selectDate() {
+
+        var begin=document.getElementById("start").value;
+        var end=document.getElementById("end").value;
     }
 
 }

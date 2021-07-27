@@ -169,18 +169,20 @@
         overlay.classList.remove("overlay--active");
     });
 
-    d3.json("./assets/counties.json").then(function(data){ console.log(data)
+    d3.json("http://localhost:7070/countries").then(function (data) {
+            console.log(data)
 
-        for(var i = 0; i < data.length; i++) {
+            Object.keys(data).forEach(item => {
 
-            var op = document.createElement('option')
-            op.setAttribute("value", data[i]["alpha-3"]);
-            op.append(document.createTextNode(data[i].name));
-            document.getElementById("cities").appendChild(op);
+                    var op = document.createElement('option')
+                    op.setAttribute("value", item);
+                    op.append(document.createTextNode(data[item]));
+                    document.getElementById("cities").appendChild(op);
 
+                }
+            )
         }
-
-    })
+    )
 
     document.getElementById('end').valueAsDate = new Date();
 
