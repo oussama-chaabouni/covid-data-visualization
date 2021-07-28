@@ -38,89 +38,33 @@
 
 </div>
 
-
 <div class="filter">
 
 
-    <button class="total-cases">
-        <span class="total-cases-text">Total Cases</span>
-        <div class="stat">
-            <img src="./assets/up-graph.svg" class="up-graph">
-            <img src="./assets/up-logo.svg" class="up-logo"><span class="percentage">+12%</span>
-        </div>
-    </button>
+<!--    <button class="total-cases">-->
+<!--        <span class="total-cases-text">Total Cases</span>-->
+<!--        <div class="stat">-->
+<!--            <img src="./assets/up-graph.svg" class="up-graph">-->
+<!--            <img src="./assets/up-logo.svg" class="up-logo"><span class="percentage">+12%</span>-->
+<!--        </div>-->
+<!--    </button>-->
 
-    <button class="new-cases">
-        <span class="button-text">New Cases</span>
-        <div class="stat">
-            <img src="./assets/down-graph.svg" class="down-graph-not-selected">
-            <img src="./assets/down-logo.svg" class="up-logo"><span class="percentage-negative">-5.3%</span>
-        </div>
-    </button>
+<!--    <button class="new-cases">-->
+<!--        <span class="button-text">New Cases</span>-->
+<!--        <div class="stat">-->
+<!--            <img src="./assets/down-graph.svg" class="down-graph-not-selected">-->
+<!--            <img src="./assets/down-logo.svg" class="up-logo"><span class="percentage-negative">-5.3%</span>-->
+<!--        </div>-->
+<!--    </button>-->
 
-    <button class="total-deaths">
-        <span class="button-text">Total Deaths</span>
-        <div class="stat">
-            <img src="./assets/down-graph.svg" class="down-graph-not-selected">
-            <img src="./assets/down-logo.svg" class="up-logo"><span class="percentage-negative">-5.3%</span>
-        </div>
-    </button>
 
-    <button class="new-deaths">
-        <span class="button-text">New Deaths</span>
-        <div class="stat">
-            <img src="./assets/down-graph.svg" class="down-graph-not-selected">
-            <img src="./assets/down-logo.svg" class="up-logo"><span class="percentage-negative">-5.3%</span>
-        </div>
-    </button>
-
-    <button class="new-vaccinations">
-        <span class="button-text">New Vaccinations</span>
-        <div class="stat">
-            <img src="./assets/up-graph-not-selected.svg" class="down-graph-not-selected">
-            <img src="./assets/up-logo-not-selected.svg" class="up-logo"><span class="percentage-positive">+15.3%</span>
-        </div>
-    </button>
-
-    <button class="total-cases-per-million">
-        <span class="button-text">Total Cases per million</span>
-        <div class="stat">
-            <img src="./assets/down-graph.svg" class="down-graph-not-selected">
-            <img src="./assets/down-logo.svg" class="up-logo"><span class="percentage-negative">-5.3%</span>
-        </div>
-    </button>
-
-    <button class="new-cases-per-million">
-        <span class="button-text">New Cases per million</span>
-        <div class="stat">
-            <img src="./assets/down-graph.svg" class="down-graph-not-selected">
-            <img src="./assets/down-logo.svg" class="up-logo"><span class="percentage-negative">-8.5%</span>
-        </div>
-    </button>
-
-    <button class="total-deaths-per-million">
-        <span class="button-text">Total Deaths per million</span>
-        <div class="stat">
-            <img src="./assets/down-graph.svg" class="down-graph-not-selected">
-            <img src="./assets/down-logo.svg" class="up-logo"><span class="percentage-negative">-5.3%</span>
-        </div>
-    </button>
-
-    <button class="new-deaths-per-million">
-        <span class="button-text">New deaths per million</span>
-        <div class="stat">
-            <img src="./assets/down-graph.svg" class="down-graph-not-selected">
-            <img src="./assets/down-logo.svg" class="up-logo"><span class="percentage-negative">-35.7%</span>
-        </div>
-    </button>
-
-    <button class="total-vaccinations-per-hundred">
-        <span class="button-text-vaccine">Total Vaccinations per hundred</span>
-        <div class="stat">
-            <img src="./assets/up-graph-not-selected.svg" class="down-graph-not-selected">
-            <img src="./assets/up-logo-not-selected.svg" class="up-logo"><span class="percentage-positive">+25.7%</span>
-        </div>
-    </button>
+<!--    <button class="total-vaccinations-per-hundred">-->
+<!--        <span class="button-text-vaccine">Total Vaccinations per hundred</span>-->
+<!--        <div class="stat">-->
+<!--            <img src="./assets/up-graph-not-selected.svg" class="down-graph-not-selected">-->
+<!--            <img src="./assets/up-logo-not-selected.svg" class="up-logo"><span class="percentage-positive">+25.7%</span>-->
+<!--        </div>-->
+<!--    </button>-->
 
 </div>
 
@@ -134,7 +78,8 @@
     <input type="radio" class="choice"
             value="country" name="selec">
     <label class="country-text">Select a Country</label>
-        <select id="cities" onchange="selectCountry()">
+        <select id="cities" >
+<!--            onchange="selectCountry()"-->
             <option value="a"></option>
         </select>
     </div>
@@ -144,12 +89,12 @@
 
         <input type="date" id="start" name="trip-start"
                value="2020-07-22"
-               min="2020-01-01" max="2021-12-31" onchange="selectCountry()">
+               min="2020-01-01" max="2021-12-31" >
 
         <label id="end-label">Date To</label>
 
         <input type="date" id="end" name="trip-start"
-               min="2020-01-01" onchange="selectCountry()">
+               min="2020-01-01" >
     </div>
 </div>
 
@@ -170,7 +115,6 @@
     });
 
     d3.json("http://localhost:7070/countries").then(function (data) {
-            console.log(data)
 
             Object.keys(data).forEach(item => {
 
@@ -186,7 +130,77 @@
 
     document.getElementById('end').valueAsDate = new Date();
 
+    d3.json("http://localhost:7070/criteria").then(function (data) {
+        var begin=document.getElementById("start")
+        var end=document.getElementById("end")
+            data.forEach((item,index) => {
+                    var btn = document.createElement('button')
+                    btn.setAttribute("value", item);
+                    btn.className="button-rect"
+                
 
+                    document.getElementsByClassName("filter")[0].appendChild(btn);
+                    var span=document.createElement('span')
+                    span.innerHTML=item.replaceAll('_',' ')
+                    span.className="button-text"
+                    document.getElementsByTagName("button")[index].appendChild(span);
+
+
+                    function setThisButtonActive(button) {
+                        button.classList.replace("button-rect","button-rect-active");
+
+                    }
+
+                    /* select all active buttons, and remove the active class from them */
+                    function resetActiveButton() {
+                        document.querySelectorAll(".button-rect-active").forEach((button) => {
+                            button.classList.replace("button-rect-active","button-rect");
+                        });
+                    }
+
+
+                document.querySelectorAll(".button-rect").forEach((button) => {
+               btn.onclick = function (){
+                   var option=document.getElementById("cities");
+                   resetActiveButton();
+                   setThisButtonActive(button);
+
+
+
+                   selectCountry(btn.value,begin.value,end.value,option.value)
+
+
+
+                    option.onchange  = function (){
+
+                        selectCountry(btn.value,begin.value,end.value,option.value)
+                    }
+
+
+                begin.onchange  = function (){
+                    begin=document.getElementById("start")
+                    selectCountry(btn.value,begin.value,end.value,option.value)
+                }
+
+
+                end.onchange  = function (){
+                    end=document.getElementById("end")
+                    selectCountry(btn.value,begin.value,end.value,option.value)
+                }
+               }
+
+
+                }
+            )
+
+
+        }
+    )
+    })
+
+    // var btn = document.getElementsByTagName('button')
+    //
+    // btn.onclick = selectFilter(btn)
 
 </script>
 <script src="script.js"></script>

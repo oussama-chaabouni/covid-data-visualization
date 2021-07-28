@@ -34,6 +34,9 @@ function renderBarChart(title) {
 
 
     var chart = function (id) {
+        var d=document.createElement("div");
+        d.className="rect-d"
+        document.getElementById("covid").appendChild(d)
         d3.select('#' + id).append("h3").text(title);
         const svg = d3.select('#' + id)
             .append('svg')
@@ -239,17 +242,19 @@ function renderBarChart(title) {
     return chart
 }
 
-function selectCountry() {
+function selectCountry(btn,begin,end,y) {
 
-    var e = document.getElementById("cities");
-    var y = e.value
-var begin=document.getElementById("start").value;
-    var end=document.getElementById("end").value;
-    console.log(begin)
+    // var e = document.getElementById("cities");
+    // var y = e.value
+
+    console.log(btn)
+
+
+
 
     d3.json("http://localhost:7070/data?country=" + y)
         .then(data => {
-            ["total_cases"].filter(item => item !== "date").filter(item => item !== "date").forEach((item) => {
+            [btn].filter(item => item !== "date").filter(item => item !== "date").forEach((item) => {
                 renderBarChart(y + " : " + item)
                     .data(
                         data
@@ -271,14 +276,13 @@ var begin=document.getElementById("start").value;
         myobj.innerHTML="";
     }
 
-    function selectDate() {
 
-        var begin=document.getElementById("start").value;
-        var end=document.getElementById("end").value;
-    }
 
 }
+function selectFilter(btn) {
 
+
+}
 
 
 /*

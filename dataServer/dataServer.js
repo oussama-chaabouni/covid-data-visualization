@@ -54,19 +54,28 @@ app.get('/countries', (request, response) => {
 
     var obj={}
     var keys=Object.keys(jsonData);
-    console.log(jsonData[keys[0]].location)
 
     Object.keys(jsonData).forEach(elem=>{
     //    var objKeys=elem;
     //    var objValues=jsonData[elem].location
-        obj[elem]=jsonData[elem].location
+        obj[elem]=(jsonData[elem].location)
 
     })
-
-
+    Object.values(obj)
+        .filter((elem => elem !== "Africa"))
    // console.log(obj)
+    Object.filter = (obj, predicate) =>
+        Object.keys(obj)
+            .filter( key => predicate(obj[key]) )
+            .reduce( (res, key) => (res[key] = obj[key], res), {} );
 
-    response.send(obj)
+    var filtered = Object.filter(obj, elem => elem !== "Africa"&& elem !== "Asia"&& elem !== "Europe"&& elem !== "European Union"
+                                            && elem !== "Kosovo"&& elem !== "North America"
+                                            && elem !== "Northern Cyprus"&& elem !== "Oceania"
+                                            && elem !== "South America"&& elem !== "World")
+
+
+    response.send(filtered)
 })
 
 app.get('/criteria', (request, response) => {

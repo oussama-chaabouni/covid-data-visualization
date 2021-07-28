@@ -12,6 +12,7 @@ body {
     align-items: center;
     padding: 5px 5%;
     height: 70px;
+    margin-bottom: 5px;
 }
 
 .navbar-right {
@@ -233,7 +234,7 @@ body {
     flex-flow: row wrap;
     align-content: flex-end;
     min-height: 199px;
-    max-height: 434px;
+    max-height: 580px;
     gap: 5px;
     max-width: 971px;
     margin-left: 23%;
@@ -249,7 +250,35 @@ body {
     border-radius: 10px;
 
 }
+.button-rect-active{
+    width: 190px;
+    height: 74px;
+    left: 509px;
+    top: 148px;
+    border-color: #807DBA;
+    background: #807DBA;
+    border-radius: 10px;
+}
 
+
+.button-rect-active span{
+    height: 19px;
+    left: 23.16%;
+    right: 32.63%;
+    top: calc(50% - 19px / 2 - 14.5px);
+
+    font-family: ABeeZee;
+    font-style: italic;
+
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+
+    text-align: right;
+
+
+    color: #FFFFFF;
+}
 .total-cases-text {
     height: 19px;
     left: 23.16%;
@@ -300,7 +329,20 @@ body {
 
     color: #FFFFFF;
 }
+.button-rect{
+    width: 190px;
+    height: 74px;
+    left: 719px;
+    top: 148px;
 
+    mix-blend-mode: normal;
+    /* Dark / 3 */
+
+    border: 1px solid #E2E2E8;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: transparent;
+}
 .new-cases {
     width: 190px;
     height: 74px;
@@ -329,12 +371,12 @@ body {
     line-height: 19px;
 
     text-align: right;
-
+    text-transform: capitalize;
 
     color: #4C4C66;
 
     mix-blend-mode: normal;
-    opacity: 0.7;
+    opacity: 0.9;
 }
 
 .down-graph-not-selected {
@@ -523,7 +565,25 @@ body {
     height: 40px;
 
 }
+.glow{
+    height: 69px;
+    width: 176px;
+    left: 497px;
+    top: 159px;
+    border-radius: 5px;
 
+    left: 25.89%;
+    right: 64.95%;
+    top: 14.72%;
+    bottom: 78.89%;
+
+    background: linear-gradient(113.91deg, #E01066 6.71%, rgba(255, 73, 200, 0.0001) 82.9%);
+    mix-blend-mode: normal;
+    opacity: 0.5;
+    filter: blur(90.885px);
+    border-radius: 5px;
+
+}
 .new-cases:hover, .total-deaths:hover, .new-deaths:hover, .new-vaccinations:hover, .total-cases-per-million:hover,
 .total-deaths:hover, .new-cases-per-million:hover, .total-deaths-per-million:hover,
 .new-deaths-per-million:hover, .total-vaccinations-per-hundred:hover {
@@ -531,7 +591,10 @@ body {
     background: linear-gradient(180deg, rgba(255, 246, 240, 0.38) 0%, rgba(251, 232, 233, 0.31) 57.44%, rgba(252, 252, 255, 0.57) 100%);
 
 }
+.button-rect:hover{
+    background: linear-gradient(180deg, rgba(255, 246, 240, 0.38) 0%, rgba(251, 232, 233, 0.31) 57.44%, rgba(252, 252, 255, 0.57) 100%);
 
+}
 
 
 .radio-selection:first-of-type {
@@ -703,6 +766,10 @@ body {
 
     .total-cases,.new-cases,.total-deaths,.new-deaths,.new-vaccinations,
     .total-cases-per-million,.new-cases-per-million,.new-deaths-per-million,.total-deaths-per-million,.total-vaccinations-per-hundred{
+        width: 177px;
+        height: 60px;
+    }
+    .button-rect{
         width: 177px;
         height: 60px;
     }
