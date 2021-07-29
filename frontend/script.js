@@ -249,13 +249,14 @@ function selectData(ctry){
 
     var begin=document.getElementById("start").value
     var end=document.getElementById("end").value
+    var dimension=document.getElementsByTagName("button").value
 
     filterData(begin,end,dimension);
-    d3.json("http://localhost:7070/data?country=" + ctry).then(data => {recentData = data;})
-        [dimension].filter(item => item !== "date").filter(item => item !== "date").forEach((item) => {
+    d3.json("http://localhost:7070/data?country=" + ctry).then(data => {recentData = data;
+    data.forEach((item) => {
             renderBarChart(ctry + " : " + item)
                 .data(
-                    recentData
+                    data
                 )
                 .xKey('date')
                 .yKey(item)
@@ -263,7 +264,7 @@ function selectData(ctry){
                 .height(500)("covid");
         })
 
-
+    })
     var myobj=document.getElementById('covid')
     var elem = document.querySelector("#covid")
     console.log(elem.childNodes.length)
@@ -278,13 +279,16 @@ function filterData(begin,end,dimension) {
     d3.json("http://localhost:7070/data?country=")
         .then(data => {
 
-            recentData=[dimension].filter(item => item !== "date").filter(item => item !== "date")
-                data.data
+            data.filter(item => item === dimension).filter(item => item !== "date").filter(item => item !== "date")
+                .data
                 .filter(item => item.date > begin && item.date < end)
                 .map((item) => Object.assign({}, item, {date: new Date(item.date)}))
 
 
-})
+        })
+console.log(recentData)
+
+
     return recentData;
 }
 

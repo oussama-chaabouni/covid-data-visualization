@@ -131,6 +131,7 @@
     document.getElementById('end').valueAsDate = new Date();
 
     d3.json("http://localhost:7070/criteria").then(function (data) {
+
         var begin=document.getElementById("start")
         var end=document.getElementById("end")
             data.forEach((item,index) => {
@@ -157,7 +158,7 @@
                             button.classList.replace("button-rect-active","button-rect");
                         });
                     }
-
+             //   filterData(begin.value,end,btn)
 
                 document.querySelectorAll(".button-rect").forEach((button) => {
                btn.onclick = function (){
@@ -165,27 +166,30 @@
                    resetActiveButton();
                    setThisButtonActive(button);
 
+                   filterData(begin.value,end.value,btn.value)
 
-
-                   selectCountry(btn.value,begin.value,end.value,option.value)
+                 //  selectCountry(btn.value,begin.value,end.value,option.value)
 
 
 
                     option.onchange  = function (){
 
-                        selectCountry(btn.value,begin.value,end.value,option.value)
+                        //selectCountry(btn.value,begin.value,end.value,option.value)
+                        selectData(option.value)
                     }
 
 
                 begin.onchange  = function (){
                     begin=document.getElementById("start")
-                    selectCountry(btn.value,begin.value,end.value,option.value)
+                   // selectCountry(btn.value,begin.value,end.value,option.value)
+                    filterData(begin.value,end.value,btn.value)
                 }
 
 
                 end.onchange  = function (){
                     end=document.getElementById("end")
-                    selectCountry(btn.value,begin.value,end.value,option.value)
+                    filterData(begin.value,end.value,btn.value)
+
                 }
                }
 
