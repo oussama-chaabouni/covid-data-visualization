@@ -242,6 +242,54 @@ function renderBarChart(title) {
     return chart
 }
 
+var recentData;
+
+
+function selectData(ctry){
+
+    var begin=document.getElementById("start").value
+    var end=document.getElementById("end").value
+
+    filterData(begin,end,dimension);
+    d3.json("http://localhost:7070/data?country=" + ctry).then(data => {recentData = data;})
+        [dimension].filter(item => item !== "date").filter(item => item !== "date").forEach((item) => {
+            renderBarChart(ctry + " : " + item)
+                .data(
+                    recentData
+                )
+                .xKey('date')
+                .yKey(item)
+                .width(800)
+                .height(500)("covid");
+        })
+
+
+    var myobj=document.getElementById('covid')
+    var elem = document.querySelector("#covid")
+    console.log(elem.childNodes.length)
+    if (elem.childNodes.length!=0) {
+        myobj.innerHTML="";
+    }
+
+};
+
+
+function filterData(begin,end,dimension) {
+    d3.json("http://localhost:7070/data?country=")
+        .then(data => {
+
+            recentData=[dimension].filter(item => item !== "date").filter(item => item !== "date")
+                data.data
+                .filter(item => item.date > begin && item.date < end)
+                .map((item) => Object.assign({}, item, {date: new Date(item.date)}))
+
+
+})
+    return recentData;
+}
+
+
+/*
 function selectCountry(btn,begin,end,y) {
 
     // var e = document.getElementById("cities");
@@ -278,11 +326,8 @@ function selectCountry(btn,begin,end,y) {
 
 
 
-}
-function selectFilter(btn) {
+}*/
 
-
-}
 
 
 /*

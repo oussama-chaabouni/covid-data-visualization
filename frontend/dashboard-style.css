@@ -421,106 +421,7 @@ body {
     color: #2BB596;
 }
 
-.total-deaths {
-    width: 190px;
-    height: 74px;
-    left: 929px;
-    top: 148px;
 
-    mix-blend-mode: normal;
-
-    border: 1px solid #E2E2E8;
-    box-sizing: border-box;
-    border-radius: 10px;
-    background: transparent;
-}
-
-.new-deaths {
-    width: 190px;
-    height: 74px;
-    left: 1145px;
-    top: 148px;
-
-    mix-blend-mode: normal;
-
-    border: 1px solid #E2E2E8;
-    box-sizing: border-box;
-    border-radius: 10px;
-    background: transparent;
-
-}
-
-.new-vaccinations {
-    width: 190px;
-    height: 74px;
-    left: 1362px;
-    top: 148px;
-
-    mix-blend-mode: normal;
-
-    border: 1px solid #E2E2E8;
-    box-sizing: border-box;
-    border-radius: 10px;
-    background: transparent;
-
-}
-
-.total-cases-per-million {
-    width: 190px;
-    height: 74px;
-    left: 509px;
-    top: 234px;
-
-    mix-blend-mode: normal;
-
-    border: 1px solid #E2E2E8;
-    box-sizing: border-box;
-    border-radius: 10px;
-    background: transparent;
-
-}
-
-.new-cases-per-million {
-    width: 190px;
-    height: 74px;
-    left: 719px;
-    top: 234px;
-
-    mix-blend-mode: normal;
-
-    border: 1px solid #E2E2E8;
-    box-sizing: border-box;
-    border-radius: 10px;
-    background: transparent;
-}
-
-.total-deaths-per-million {
-    width: 190px;
-    height: 74px;
-    left: 929px;
-    top: 234px;
-
-    mix-blend-mode: normal;
-
-    border: 1px solid #E2E2E8;
-    box-sizing: border-box;
-    border-radius: 10px;
-    background: transparent;
-}
-
-.new-deaths-per-million {
-    width: 190px;
-    height: 74px;
-    left: 929px;
-    top: 234px;
-
-    mix-blend-mode: normal;
-
-    border: 1px solid #E2E2E8;
-    box-sizing: border-box;
-    border-radius: 10px;
-    background: transparent;
-}
 
 .total-vaccinations-per-hundred {
     width: 190px;
@@ -584,13 +485,7 @@ body {
     border-radius: 5px;
 
 }
-.new-cases:hover, .total-deaths:hover, .new-deaths:hover, .new-vaccinations:hover, .total-cases-per-million:hover,
-.total-deaths:hover, .new-cases-per-million:hover, .total-deaths-per-million:hover,
-.new-deaths-per-million:hover, .total-vaccinations-per-hundred:hover {
 
-    background: linear-gradient(180deg, rgba(255, 246, 240, 0.38) 0%, rgba(251, 232, 233, 0.31) 57.44%, rgba(252, 252, 255, 0.57) 100%);
-
-}
 .button-rect:hover{
     background: linear-gradient(180deg, rgba(255, 246, 240, 0.38) 0%, rgba(251, 232, 233, 0.31) 57.44%, rgba(252, 252, 255, 0.57) 100%);
 
