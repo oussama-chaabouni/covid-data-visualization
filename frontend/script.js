@@ -1,4 +1,3 @@
-
 const width = 1900;
 const height = 950;
 const margin = {top: 50, bottom: 250, left: 50, right: 50};
@@ -24,12 +23,12 @@ function renderBarChart(title) {
     var width = 500;
     var height = 300
 
-    var xKey = ""
-    var yKey = ""
+    var xKey = ''
+    var yKey = ''
     var tip = d3
         .tip()
         .attr('class', 'd3-tip')
-        .offset([-10, 0])
+        .offset([ -10, 0 ])
 
 
 
@@ -243,54 +242,54 @@ function renderBarChart(title) {
 }
 
 var recentData;
+var chosenCtry = ''
 
 
-function selectData(ctry){
+function selectData(ctry, criterion = "total_cases" ) {
+    chosenCtry = ctry;
+    var begin = document.getElementById('start').value
+    var end = document.getElementById('end').value
+    var dimension = document.getElementsByTagName('button').value
 
-    var begin=document.getElementById("start").value
-    var end=document.getElementById("end").value
-    var dimension=document.getElementsByTagName("button").value
-
-    filterData(begin,end,dimension);
-    d3.json("http://localhost:7070/data?country=" + ctry).then(data => {recentData = data;
-    data.forEach((item) => {
-            renderBarChart(ctry + " : " + item)
-                .data(
-                    data
-                )
+    emptyChart();
+    d3.json('http://localhost:7070/data?country=' + ctry)
+        .then(data => {
+            recentData = data.data.map(d => Object.assign({}, d, { date: new Date(d.date )}));
+            renderBarChart(ctry + ' : ' + criterion)
+                .data(recentData)
                 .xKey('date')
-                .yKey(item)
+                .yKey(criterion)
                 .width(800)
-                .height(500)("covid");
+                .height(500)('covid');
+
         })
 
-    })
-    var myobj=document.getElementById('covid')
-    var elem = document.querySelector("#covid")
-    console.log(elem.childNodes.length)
-    if (elem.childNodes.length!=0) {
-        myobj.innerHTML="";
-    }
 
 };
 
-
-function filterData(begin,end,dimension) {
-    d3.json("http://localhost:7070/data?country=")
-        .then(data => {
-
-            data.filter(item => item === dimension).filter(item => item !== "date").filter(item => item !== "date")
-                .data
-                .filter(item => item.date > begin && item.date < end)
-                .map((item) => Object.assign({}, item, {date: new Date(item.date)}))
-
-
-        })
-console.log(recentData)
-
-
-    return recentData;
+function emptyChart(){
+    var myobj = document.getElementById('covid')
+    myobj.innerHTML = '';
 }
+
+function filterData(begin, end, dimension) {
+    emptyChart();
+    renderBarChart(chosenCtry + ' : ' + dimension)
+        .data(
+            recentData.filter(item => item.date > begin && item.date < end)
+                .map((item) => Object.assign({}, item, {date: new Date(item.date)}))
+        )
+        .xKey('date')
+        .yKey(dimension)
+        .width(800)
+        .height(500)('covid');
+
+}
+
+
+
+
+
 
 
 /*

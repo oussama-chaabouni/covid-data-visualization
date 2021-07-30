@@ -4,7 +4,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Title</title>
     <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script src="../node_modules/d3-tip/dist/index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.0/d3-tip.js"
+            integrity="sha512-9WNL1D7EK7WwRB4smgvl1S2wEGeWP+xHjxEhzyUjasZZQGDUEPHBEkXgVKNcwxqqjzA7CnIEz/MhxiU79IdG1A=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <link rel="stylesheet" href="dashboard-style.css">
 </head>
@@ -99,107 +101,105 @@
 </div>
 
 <div id="covid" ></div>
+<script src="script.js"></script>
 
 <script>
     const doc = document;
-    const menuOpen = doc.querySelector(".menu");
-    const menuClose = doc.querySelector(".close");
-    const overlay = doc.querySelector(".overlay");
+    const menuOpen = doc.querySelector('.menu');
+    const menuClose = doc.querySelector('.close');
+    const overlay = doc.querySelector('.overlay');
 
-    menuOpen.addEventListener("click", () => {
-        overlay.classList.add("overlay--active");
+    function refetchData(v){
+        console.log(v)
+    }
+
+    menuOpen.addEventListener('click', () => {
+        overlay.classList.add('overlay--active');
     });
 
-    menuClose.addEventListener("click", () => {
-        overlay.classList.remove("overlay--active");
+    menuClose.addEventListener('click', () => {
+        overlay.classList.remove('overlay--active');
     });
 
-    d3.json("http://localhost:7070/countries").then(function (data) {
+    document.getElementById('cities').onchange = function (event) {
+        selectData(event.target.value)
+    };
+
+    d3.json('http://localhost:7070/countries').then(function (data) {
+            var coutriesSelect = document.getElementById('cities');
 
             Object.keys(data).forEach(item => {
-
                     var op = document.createElement('option')
-                    op.setAttribute("value", item);
+                    op.setAttribute('value', item);
                     op.append(document.createTextNode(data[item]));
-                    document.getElementById("cities").appendChild(op);
+                    coutriesSelect.appendChild(op);
+                },
+            );
 
-                }
-            )
-        }
+        },
     )
 
     document.getElementById('end').valueAsDate = new Date();
 
-    d3.json("http://localhost:7070/criteria").then(function (data) {
+    d3.json('http://localhost:7070/criteria').then(function (data) {
 
-        var begin=document.getElementById("start")
-        var end=document.getElementById("end")
-            data.forEach((item,index) => {
-                    var btn = document.createElement('button')
-                    btn.setAttribute("value", item);
-                    btn.className="button-rect"
-
-
-                    document.getElementsByClassName("filter")[0].appendChild(btn);
-                    var span=document.createElement('span')
-                    span.innerHTML=item.replaceAll('_',' ')
-                    span.className="button-text"
-                    document.getElementsByTagName("button")[index].appendChild(span);
+        var begin = document.getElementById('start')
+        var end = document.getElementById('end')
+        data.forEach((item, index) => {
+                var btn = document.createElement('button')
+                btn.setAttribute('value', item);
+                btn.className = 'button-rect'
 
 
-                    function setThisButtonActive(button) {
-                        button.classList.replace("button-rect","button-rect-active");
-
-                    }
-
-                    /* select all active buttons, and remove the active class from them */
-                    function resetActiveButton() {
-                        document.querySelectorAll(".button-rect-active").forEach((button) => {
-                            button.classList.replace("button-rect-active","button-rect");
-                        });
-                    }
-             //   filterData(begin.value,end,btn)
-
-                document.querySelectorAll(".button-rect").forEach((button) => {
-               btn.onclick = function (){
-                   var option=document.getElementById("cities");
-                   resetActiveButton();
-                   setThisButtonActive(button);
-
-                   filterData(begin.value,end.value,btn.value)
-
-                 //  selectCountry(btn.value,begin.value,end.value,option.value)
+                document.getElementsByClassName('filter')[0].appendChild(btn);
+                var span = document.createElement('span')
+                span.innerHTML = item.replaceAll('_', ' ')
+                span.className = 'button-text'
+                document.getElementsByTagName('button')[index].appendChild(span);
 
 
-
-                    option.onchange  = function (){
-
-                        //selectCountry(btn.value,begin.value,end.value,option.value)
-                        selectData(option.value)
-                    }
-
-
-                begin.onchange  = function (){
-                    begin=document.getElementById("start")
-                   // selectCountry(btn.value,begin.value,end.value,option.value)
-                    filterData(begin.value,end.value,btn.value)
-                }
-
-
-                end.onchange  = function (){
-                    end=document.getElementById("end")
-                    filterData(begin.value,end.value,btn.value)
+                function setThisButtonActive(button) {
+                    button.classList.replace('button-rect', 'button-rect-active');
 
                 }
-               }
 
-
+                /* select all active buttons, and remove the active class from them */
+                function resetActiveButton() {
+                    document.querySelectorAll('.button-rect-active').forEach((button) => {
+                        button.classList.replace('button-rect-active', 'button-rect');
+                    });
                 }
-            )
+
+                //   filterData(begin.value,end,btn)
+
+                document.querySelectorAll('.button-rect').forEach((button) => {
+                        btn.onclick = function () {
+                            resetActiveButton();
+                            setThisButtonActive(button);
+
+                            filterData(new Date(begin.value), new Date(end.value), btn.value)
+
+                            begin.onchange = function () {
+                                begin = document.getElementById('start')
+                                // selectCountry(btn.value,begin.value,end.value,option.value)
+                                filterData(new Date(begin.value), new Date(end.value), btn.value)
+                            }
 
 
-        }
-    )
+                            end.onchange = function () {
+                                end = document.getElementById('end')
+                                filterData(new Date(begin.value), new Date(end.value), btn.value)
+
+                            }
+                        }
+
+
+                    },
+                )
+
+
+            },
+        )
     })
 
     // var btn = document.getElementsByTagName('button')
@@ -207,7 +207,6 @@
     // btn.onclick = selectFilter(btn)
 
 </script>
-<script src="script.js"></script>
 
 </body>
 </html>
