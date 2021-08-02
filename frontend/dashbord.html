@@ -36,7 +36,7 @@
 <div class="page-title">
     <span class="title">Dashboard</span>
     <span class="title-text">Explore the COVID-19 data</span>
-    <span class="filter-data">Filter Data</span>
+
 
 </div>
 <div class="radio-selection">
@@ -49,7 +49,7 @@
                value="country" name="selec">
         <label class="country-text">Select a Country</label>
         <select id="cities" >
-            <!--            onchange="selectCountry()"-->
+
             <option value=""></option>
         </select>
     </div>
@@ -67,32 +67,12 @@
     </div>
 </div>
 <div class="filter">
+    <span class="filter-data">Filter Data</span>
+    <div class="options-container"></div>
+    <div class="selected" value="total_cases">
+        Total Cases
+    </div>
 
-
-<!--    <button class="total-cases">-->
-<!--        <span class="total-cases-text">Total Cases</span>-->
-<!--        <div class="stat">-->
-<!--            <img src="./assets/up-graph.svg" class="up-graph">-->
-<!--            <img src="./assets/up-logo.svg" class="up-logo"><span class="percentage">+12%</span>-->
-<!--        </div>-->
-<!--    </button>-->
-
-<!--    <button class="new-cases">-->
-<!--        <span class="button-text">New Cases</span>-->
-<!--        <div class="stat">-->
-<!--            <img src="./assets/down-graph.svg" class="down-graph-not-selected">-->
-<!--            <img src="./assets/down-logo.svg" class="up-logo"><span class="percentage-negative">-5.3%</span>-->
-<!--        </div>-->
-<!--    </button>-->
-
-
-<!--    <button class="total-vaccinations-per-hundred">-->
-<!--        <span class="button-text-vaccine">Total Vaccinations per hundred</span>-->
-<!--        <div class="stat">-->
-<!--            <img src="./assets/up-graph-not-selected.svg" class="down-graph-not-selected">-->
-<!--            <img src="./assets/up-logo-not-selected.svg" class="up-logo"><span class="percentage-positive">+25.7%</span>-->
-<!--        </div>-->
-<!--    </button>-->
 
 </div>
 
@@ -132,24 +112,66 @@
 
         },
     )
-
+    var begin = document.getElementById('start')
+    var end = document.getElementById('end')
     document.getElementById('end').valueAsDate = new Date();
+    begin.onchange = function () {
+        console.log(begin.value)
+        begin = document.getElementById('start')
+        filterData(new Date(begin.value), new Date(end.value), document.querySelector(".selected").getAttribute('value'))
+    }
 
+
+    end.onchange = function () {
+        end = document.getElementById('end')
+        filterData(new Date(begin.value), new Date(end.value), document.querySelector(".selected").getAttribute('value'))
+
+    }
     d3.json('http://localhost:7070/criteria').then(function (data) {
 
-        var begin = document.getElementById('start')
-        var end = document.getElementById('end')
+
+        var criteria = document.getElementsByClassName('options-container');
         data.forEach((item, index) => {
-                var btn = document.createElement('button')
-                btn.setAttribute('value', item);
-                btn.className = 'button-rect'
+                var btn = document.createElement('div')
+                 btn.className='option'
+            var input=document.createElement('input')
+                input.setAttribute('type','radio')
+                input.setAttribute('name','category')
+            input.id=item
+            input.className="radio"
+                var label=document.createElement('label')
+            label.setAttribute('for',item)
+                label.innerHTML = item.replaceAll('_', ' ')
+                criteria[0].appendChild(btn)
+                btn.appendChild(input)
+                btn.appendChild(label)
 
 
-                document.getElementsByClassName('filter')[0].appendChild(btn);
-                var span = document.createElement('span')
-                span.innerHTML = item.replaceAll('_', ' ')
-                span.className = 'button-text'
-                document.getElementsByTagName('button')[index].appendChild(span);
+                const selected = document.querySelector(".selected");
+
+                const optionsContainer = document.querySelector(".options-container");
+
+                const optionsList = document.querySelectorAll(".option");
+
+
+
+                selected.addEventListener("click", () => {
+                    optionsContainer.classList.toggle("active");
+                });
+
+                optionsList.forEach(o => {
+                    o.addEventListener("click", () => {
+                        var val=(o.querySelector("label").innerHTML).replaceAll(' ','_')
+                        selected.innerHTML = o.querySelector("label").innerHTML;
+                        selected.setAttribute('value',val)
+                        if(document.getElementById('cities').value !== '')
+
+                            filterData(new Date(begin.value), new Date(end.value), val)
+                        optionsContainer.classList.remove("active");
+
+                    });
+                });
+
 
 
 
@@ -165,57 +187,26 @@
                     });
                 }
 
-                //   filterData(begin.value,end,btn)
 
-                document.querySelectorAll('.button-rect').forEach((button) => {
-                    var total_cases= document.querySelector("[value='total_cases']");
-                    setThisButtonActive(total_cases);
                     document.getElementById('cities').onchange = function (event) {
+                         begin = document.getElementById('start')
+                         end = document.getElementById('end')
                         selectData(event.target.value)
-                             resetActiveButton();
-                             setThisButtonActive(total_cases);
+                        selected.innerHTML="Total Cases"
+                        selected.setAttribute('value',"total_cases")
+
                     };
-                        btn.onclick = function () {
-                            resetActiveButton();
-                            setThisButtonActive(button);
-
-                            if(document.getElementById('cities').value !== '')
-
-                            filterData(new Date(begin.value), new Date(end.value), btn.value)
 
 
-                            // document.getElementById('cities').onchange = function (event) {
-                            //
-                            //     resetActiveButton();
-                            //     setThisButtonActive(total_cases);
-                            // };
-
-                            begin.onchange = function () {
-                                begin = document.getElementById('start')
-                                // selectCountry(btn.value,begin.value,end.value,option.value)
-                                filterData(new Date(begin.value), new Date(end.value), btn.value)
-                            }
-
-
-                            end.onchange = function () {
-                                end = document.getElementById('end')
-                                filterData(new Date(begin.value), new Date(end.value), btn.value)
-
-                            }
-                        }
-
-
-                    },
-                )
 
 
             },
         )
+
+
     })
 
-    // var btn = document.getElementsByTagName('button')
-    //
-    // btn.onclick = selectFilter(btn)
+
 
 </script>
 

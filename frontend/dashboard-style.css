@@ -221,25 +221,120 @@ body {
     line-height: 21px;
 
     color: #6F6C99;
-    margin-top: 50px;
 }
 
 
 .filter {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    flex-wrap: wrap;
-    flex-flow: row wrap;
-    align-content: flex-end;
-    min-height: 199px;
-    max-height: 580px;
-    gap: 5px;
-    max-width: 971px;
-    margin-left: 23%;
+    width: 400px;
+    flex-direction: column;
+    margin-left: 395px;
+    margin-top: 68px;
+    position: absolute;
+
+}
+.filter label{
+    height: 19px;
+    left: 23.16%;
+    right: 32.63%;
+    top: calc(50% - 19px / 2 - 14.5px);
+
+    font-family: ABeeZee;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+
+    text-align: right;
+    text-transform: capitalize;
+
+    color: #FFFFFF;
+}
+.filter .options-container {
+    background: rgb(128 125 186 / 90%);
+    color: #f5f6fa;
+    max-height: 0;
+    width: 100%;
+    opacity: 0;
+    transition: all 0.4s;
+    border-radius: 8px;
+    overflow: hidden;
+
+    order: 1;
 }
 
+.selected {
+    background: #807DBA;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    color: #f5f6fa;
+    position: relative;
+
+    order: 0;
+    font-family: ABeeZee;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+
+
+    text-transform: capitalize;
+
+    color: #FFFFFF;
+}
+
+.selected::after {
+    content: "";
+    background: url("./assets/arrow-down.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    position: absolute;
+    height: 100%;
+    width: 32px;
+    right: 10px;
+    top: 5px;
+
+    transition: all 0.4s;
+}
+
+.filter .options-container.active {
+    max-height: 240px;
+    opacity: 1;
+    overflow-y: scroll;
+}
+
+.filter .options-container.active + .selected::after {
+    transform: rotateX(180deg);
+    top: -6px;
+}
+
+.filter .options-container::-webkit-scrollbar {
+    width: 8px;
+    background: #0d141f;
+    border-radius: 0 8px 8px 0;
+}
+
+.filter .options-container::-webkit-scrollbar-thumb {
+    background: #525861;
+    border-radius: 0 8px 8px 0;
+}
+
+.filter .option,
+.selected {
+    padding: 12px 24px;
+    cursor: pointer;
+}
+
+.filter .option:hover {
+    background: #BCA0DC;
+}
+
+.filter label {
+    cursor: pointer;
+}
+
+.filter .option .radio {
+    display: none;
+}
 .total-cases {
     width: 190px;
     height: 74px;
@@ -250,35 +345,7 @@ body {
     border-radius: 10px;
 
 }
-.button-rect-active{
-    width: 190px;
-    height: 74px;
-    left: 509px;
-    top: 148px;
-    border-color: #807DBA;
-    background: #807DBA;
-    border-radius: 10px;
-}
 
-
-.button-rect-active span{
-    height: 19px;
-    left: 23.16%;
-    right: 32.63%;
-    top: calc(50% - 19px / 2 - 14.5px);
-
-    font-family: ABeeZee;
-    font-style: italic;
-
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 19px;
-
-    text-align: right;
-
-
-    color: #FFFFFF;
-}
 .total-cases-text {
     height: 19px;
     left: 23.16%;
@@ -329,20 +396,7 @@ body {
 
     color: #FFFFFF;
 }
-.button-rect{
-    width: 190px;
-    height: 74px;
-    left: 719px;
-    top: 148px;
 
-    mix-blend-mode: normal;
-    /* Dark / 3 */
-
-    border: 1px solid #E2E2E8;
-    box-sizing: border-box;
-    border-radius: 10px;
-    background: transparent;
-}
 .new-cases {
     width: 190px;
     height: 74px;
@@ -356,139 +410,6 @@ body {
     box-sizing: border-box;
     border-radius: 10px;
     background: transparent;
-}
-
-.button-text {
-    height: 19px;
-    left: 21.58%;
-    right: 35.79%;
-    top: calc(50% - 19px / 2 - 13.5px);
-    width: 50%;
-    font-family: ABeeZee;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 19px;
-
-    text-align: right;
-    text-transform: capitalize;
-
-    color: #4C4C66;
-
-    mix-blend-mode: normal;
-    opacity: 0.9;
-}
-
-.down-graph-not-selected {
-    left: 32.11%;
-    right: 51.05%;
-    top: 39.85%;
-    bottom: 25.14%;
-
-}
-
-.percentage-negative {
-    height: 13px;
-    left: 67.37%;
-    right: 11.58%;
-    top: calc(50% - 13px / 2 + 13.5px);
-
-    font-family: ABeeZee;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 11px;
-    line-height: 13px;
-
-
-
-    color: #E3507A;
-}
-
-.percentage-positive {
-    height: 13px;
-    left: 67.37%;
-    right: 11.58%;
-    top: calc(50% - 13px / 2 + 13.5px);
-
-    font-family: ABeeZee;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 11px;
-    line-height: 13px;
-
-
-
-    color: #2BB596;
-}
-
-
-
-.total-vaccinations-per-hundred {
-    width: 190px;
-    height: 74px;
-    left: 1362px;
-    top: 233px;
-
-    mix-blend-mode: normal;
-
-    border: 1px solid #E2E2E8;
-    box-sizing: border-box;
-    border-radius: 10px;
-    background: transparent;
-
-}
-.button-text-vaccine{
-    font-size: 14px;
-
-    height: 19px;
-    left: 21.58%;
-    right: 35.79%;
-    top: calc(50% - 19px / 2 - 13.5px);
-    width: 50%;
-    font-family: ABeeZee;
-    font-style: normal;
-    font-weight: normal;
-    line-height: 19px;
-
-    text-align: right;
-
-
-    color: #4C4C66;
-
-    mix-blend-mode: normal;
-    opacity: 0.7;
-}
-
-.stat {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 40px;
-
-}
-.glow{
-    height: 69px;
-    width: 176px;
-    left: 497px;
-    top: 159px;
-    border-radius: 5px;
-
-    left: 25.89%;
-    right: 64.95%;
-    top: 14.72%;
-    bottom: 78.89%;
-
-    background: linear-gradient(113.91deg, #E01066 6.71%, rgba(255, 73, 200, 0.0001) 82.9%);
-    mix-blend-mode: normal;
-    opacity: 0.5;
-    filter: blur(90.885px);
-    border-radius: 5px;
-
-}
-
-.button-rect:hover{
-    background: linear-gradient(180deg, rgba(255, 246, 240, 0.38) 0%, rgba(251, 232, 233, 0.31) 57.44%, rgba(252, 252, 255, 0.57) 100%);
-
 }
 
 
@@ -634,7 +555,7 @@ body {
 #covid{
     margin-left: 30%;
     margin-right: 30%;
-    margin-top:5%;
+    margin-top: 18%;
 }
 
 .error{
@@ -673,13 +594,8 @@ body {
         width: 177px;
         height: 60px;
     }
-    .button-rect{
-        width: 177px;
-        height: 60px;
-    }
-    .button-text-vaccine{
-        font-size: 13px;
-    }
+
+
     .filter {
         display: flex;
         align-items: center;
@@ -688,12 +604,11 @@ body {
         flex-wrap: wrap;
         flex-flow: row wrap;
         align-content: flex-end;
-        min-height: 204px;
-        max-height: 723px;
+        min-height: 62px;
+        max-height: 563px;
         gap: 5px;
-        max-width: 971px;
-        margin-left:0px;
-        margin-top:70px
+        max-width: 271px;
+        margin-left: 23%;
     }
 
     .page-title{

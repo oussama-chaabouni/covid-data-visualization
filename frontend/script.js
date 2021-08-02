@@ -243,7 +243,7 @@ function renderBarChart(title) {
 
 var recentData;
 var chosenCtry = ''
-
+var critTab= [];
 
 function selectData(ctry, criterion = "total_cases" ) {
     chosenCtry = ctry;
@@ -255,7 +255,19 @@ function selectData(ctry, criterion = "total_cases" ) {
     d3.json('http://localhost:7070/data?country=' + ctry)
         .then(data => {
             recentData = data.data.map(d => Object.assign({}, d, { date: new Date(d.date )}));
-            if(Object.keys(recentData[0]).indexOf(criterion)> -1){
+
+
+            Object.keys(recentData).forEach((elem,index)=>{
+                    var nextkey = index < Object.keys(recentData).length-1 ? Object.keys(recentData)[index+1] : null;
+
+
+                    if((nextkey!=null)&&(((Object.keys(recentData[elem])).length) < ((Object.keys((recentData)[nextkey]).length)))){
+                        critTab=Object.keys(recentData[elem])
+                    }
+
+                })
+
+            if(critTab.indexOf(criterion)> -1){
             renderBarChart(ctry + ' : ' + criterion)
                 .data(recentData)
                 .xKey('date')
@@ -270,12 +282,12 @@ function selectData(ctry, criterion = "total_cases" ) {
                 h.appendChild(t)
 
                 myobj.appendChild(h);
-                // document.body.appendChild(myobj);
+
 
             }
         })
         .catch(function(error) {
-            // Do some error handling.
+
         });
 
 };
@@ -287,7 +299,8 @@ function emptyChart(){
 
 function filterData(begin, end, dimension) {
     emptyChart();
-    if(Object.keys(recentData[0]).indexOf(dimension)> -1) {
+
+    if(critTab.indexOf(dimension)> -1) {
         renderBarChart(chosenCtry + ' : ' + dimension)
             .data(
                 recentData.filter(item => item.date > begin && item.date < end)
@@ -306,7 +319,7 @@ function filterData(begin, end, dimension) {
         h.appendChild(t)
 
         myobj.appendChild(h);
-        // document.body.appendChild(myobj);
+
 
     }
 }
