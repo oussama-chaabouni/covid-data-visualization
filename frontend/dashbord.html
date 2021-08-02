@@ -39,7 +39,33 @@
     <span class="filter-data">Filter Data</span>
 
 </div>
+<div class="radio-selection">
+    <div id="world-country-container">
+        <input type="radio" class="choice"
+               value="world" name="selec" checked >
+        <label class="world-text" >World Map</label><br>
 
+        <input type="radio" class="choice"
+               value="country" name="selec">
+        <label class="country-text">Select a Country</label>
+        <select id="cities" >
+            <!--            onchange="selectCountry()"-->
+            <option value=""></option>
+        </select>
+    </div>
+    <div class="date-selection">
+        <label id="start-label">Date From</label>
+
+        <input type="date" id="start" name="trip-start"
+               value="2020-07-22"
+               min="2020-01-01" max="2021-12-31" >
+
+        <label id="end-label">Date To</label>
+
+        <input type="date" id="end" name="trip-start"
+               min="2020-01-01" >
+    </div>
+</div>
 <div class="filter">
 
 
@@ -70,36 +96,6 @@
 
 </div>
 
-
-<div class="radio-selection">
-    <div id="world-country-container">
-    <input type="radio" class="choice"
-            value="world" name="selec" checked >
-    <label class="world-text" >World Map</label><br>
-
-    <input type="radio" class="choice"
-            value="country" name="selec">
-    <label class="country-text">Select a Country</label>
-        <select id="cities" >
-<!--            onchange="selectCountry()"-->
-            <option value="a"></option>
-        </select>
-    </div>
-
-    <div class="date-selection">
-        <label id="start-label">Date From</label>
-
-        <input type="date" id="start" name="trip-start"
-               value="2020-07-22"
-               min="2020-01-01" max="2021-12-31" >
-
-        <label id="end-label">Date To</label>
-
-        <input type="date" id="end" name="trip-start"
-               min="2020-01-01" >
-    </div>
-</div>
-
 <div id="covid" ></div>
 <script src="script.js"></script>
 
@@ -121,9 +117,7 @@
         overlay.classList.remove('overlay--active');
     });
 
-    document.getElementById('cities').onchange = function (event) {
-        selectData(event.target.value)
-    };
+
 
     d3.json('http://localhost:7070/countries').then(function (data) {
             var coutriesSelect = document.getElementById('cities');
@@ -158,6 +152,7 @@
                 document.getElementsByTagName('button')[index].appendChild(span);
 
 
+
                 function setThisButtonActive(button) {
                     button.classList.replace('button-rect', 'button-rect-active');
 
@@ -173,11 +168,27 @@
                 //   filterData(begin.value,end,btn)
 
                 document.querySelectorAll('.button-rect').forEach((button) => {
+                    var total_cases= document.querySelector("[value='total_cases']");
+                    setThisButtonActive(total_cases);
+                    document.getElementById('cities').onchange = function (event) {
+                        selectData(event.target.value)
+                             resetActiveButton();
+                             setThisButtonActive(total_cases);
+                    };
                         btn.onclick = function () {
                             resetActiveButton();
                             setThisButtonActive(button);
 
+                            if(document.getElementById('cities').value !== '')
+
                             filterData(new Date(begin.value), new Date(end.value), btn.value)
+
+
+                            // document.getElementById('cities').onchange = function (event) {
+                            //
+                            //     resetActiveButton();
+                            //     setThisButtonActive(total_cases);
+                            // };
 
                             begin.onchange = function () {
                                 begin = document.getElementById('start')

@@ -255,15 +255,28 @@ function selectData(ctry, criterion = "total_cases" ) {
     d3.json('http://localhost:7070/data?country=' + ctry)
         .then(data => {
             recentData = data.data.map(d => Object.assign({}, d, { date: new Date(d.date )}));
+            if(Object.keys(recentData[0]).indexOf(criterion)> -1){
             renderBarChart(ctry + ' : ' + criterion)
                 .data(recentData)
                 .xKey('date')
                 .yKey(criterion)
                 .width(800)
                 .height(500)('covid');
+            }else{
+                var myobj = document.getElementById('covid')
+                var h = document.createElement("H1")
+                h.className="error"
+                var t = document.createTextNode("No Data Found");
+                h.appendChild(t)
 
+                myobj.appendChild(h);
+                // document.body.appendChild(myobj);
+
+            }
         })
-
+        .catch(function(error) {
+            // Do some error handling.
+        });
 
 };
 
@@ -274,16 +287,28 @@ function emptyChart(){
 
 function filterData(begin, end, dimension) {
     emptyChart();
-    renderBarChart(chosenCtry + ' : ' + dimension)
-        .data(
-            recentData.filter(item => item.date > begin && item.date < end)
-                .map((item) => Object.assign({}, item, {date: new Date(item.date)}))
-        )
-        .xKey('date')
-        .yKey(dimension)
-        .width(800)
-        .height(500)('covid');
+    if(Object.keys(recentData[0]).indexOf(dimension)> -1) {
+        renderBarChart(chosenCtry + ' : ' + dimension)
+            .data(
+                recentData.filter(item => item.date > begin && item.date < end)
+                    .map((item) => Object.assign({}, item, {date: new Date(item.date)}))
+            )
+            .xKey('date')
+            .yKey(dimension)
+            .width(800)
+            .height(500)('covid');
+    }else{
+        var myobj = document.getElementById('covid')
+        var h = document.createElement("H1")
+        h.className="error"
 
+        var t = document.createTextNode("No Data Found");
+        h.appendChild(t)
+
+        myobj.appendChild(h);
+        // document.body.appendChild(myobj);
+
+    }
 }
 
 

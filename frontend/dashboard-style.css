@@ -547,19 +547,25 @@ body {
 
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: left;
     flex-direction: row;
     flex-wrap: wrap;
     flex-flow: row wrap;
     align-content: flex-end;
     min-height: 75px;
-    max-height: 427px;
+    max-height: 439px;
+    width: 100%;
+    left: 53px;
+    margin-left: 380px;
+    margin-bottom: 20px;
 }
 
 .date-selection{
     display: flex;
     justify-content: center;
     flex-direction: row;
+
+    margin-top: 14px;
 }
 #start,#end{
     border: 1px solid #6F6C99;
@@ -631,7 +637,10 @@ body {
     margin-top:5%;
 }
 
-
+.error{
+    color: #6F6C99;
+    text-align: center;
+}
 
 
 
