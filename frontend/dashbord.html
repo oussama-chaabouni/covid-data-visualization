@@ -42,13 +42,13 @@
 <div class="radio-selection">
     <div id="world-country-container">
         <input type="radio" class="choice"
-               value="world" name="selec" checked >
-        <label class="world-text" >World Map</label><br>
+               value="world" name="selec" checked>
+        <label class="world-text">World Map</label><br>
 
         <input type="radio" class="choice"
                value="country" name="selec">
         <label class="country-text">Select a Country</label>
-        <select id="cities" >
+        <select id="cities">
 
             <option value=""></option>
         </select>
@@ -58,25 +58,32 @@
 
         <input type="date" id="start" name="trip-start"
                value="2020-07-22"
-               min="2020-01-01" max="2021-12-31" >
+               min="2020-01-01" max="2021-12-31">
 
         <label id="end-label">Date To</label>
 
         <input type="date" id="end" name="trip-start"
-               min="2020-01-01" >
+               min="2020-01-01">
     </div>
 </div>
 <div class="filter">
-    <span class="filter-data">Filter Data</span>
-    <div class="options-container"></div>
-    <div class="selected" value="total_cases">
-        Total Cases
+    <div class="filter-text">
+        <span class="filter-data">Filter Data</span>
     </div>
+    <div>
+        <div class="selected" value="total_cases">
+            Total Cases
+        </div>
+        <div class="options-container"></div>
+    </div>
+
+
+
 
 
 </div>
 
-<div id="covid" ></div>
+<div id="covid"></div>
 <script src="script.js"></script>
 
 <script>
@@ -85,7 +92,7 @@
     const menuClose = doc.querySelector('.close');
     const overlay = doc.querySelector('.overlay');
 
-    function refetchData(v){
+    function refetchData(v) {
         console.log(v)
     }
 
@@ -96,7 +103,6 @@
     menuClose.addEventListener('click', () => {
         overlay.classList.remove('overlay--active');
     });
-
 
 
     d3.json('http://localhost:7070/countries').then(function (data) {
@@ -133,14 +139,14 @@
         var criteria = document.getElementsByClassName('options-container');
         data.forEach((item, index) => {
                 var btn = document.createElement('div')
-                 btn.className='option'
-            var input=document.createElement('input')
-                input.setAttribute('type','radio')
-                input.setAttribute('name','category')
-            input.id=item
-            input.className="radio"
-                var label=document.createElement('label')
-            label.setAttribute('for',item)
+                btn.className = 'option'
+                var input = document.createElement('input')
+                input.setAttribute('type', 'radio')
+                input.setAttribute('name', 'category')
+                input.id = item
+                input.className = "radio"
+                var label = document.createElement('label')
+                label.setAttribute('for', item)
                 label.innerHTML = item.replaceAll('_', ' ')
                 criteria[0].appendChild(btn)
                 btn.appendChild(input)
@@ -154,25 +160,22 @@
                 const optionsList = document.querySelectorAll(".option");
 
 
-
                 selected.addEventListener("click", () => {
                     optionsContainer.classList.toggle("active");
                 });
 
                 optionsList.forEach(o => {
                     o.addEventListener("click", () => {
-                        var val=(o.querySelector("label").innerHTML).replaceAll(' ','_')
+                        var val = (o.querySelector("label").innerHTML).replaceAll(' ', '_')
                         selected.innerHTML = o.querySelector("label").innerHTML;
-                        selected.setAttribute('value',val)
-                        if(document.getElementById('cities').value !== '')
+                        selected.setAttribute('value', val)
+                        if (document.getElementById('cities').value !== '')
 
                             filterData(new Date(begin.value), new Date(end.value), val)
                         optionsContainer.classList.remove("active");
 
                     });
                 });
-
-
 
 
                 function setThisButtonActive(button) {
@@ -188,16 +191,14 @@
                 }
 
 
-                    document.getElementById('cities').onchange = function (event) {
-                         begin = document.getElementById('start')
-                         end = document.getElementById('end')
-                        selectData(event.target.value)
-                        selected.innerHTML="Total Cases"
-                        selected.setAttribute('value',"total_cases")
+                document.getElementById('cities').onchange = function (event) {
+                    begin = document.getElementById('start')
+                    end = document.getElementById('end')
+                    selectData(event.target.value)
+                    selected.innerHTML = "Total Cases"
+                    selected.setAttribute('value', "total_cases")
 
-                    };
-
-
+                };
 
 
             },
@@ -205,7 +206,6 @@
 
 
     })
-
 
 
 </script>

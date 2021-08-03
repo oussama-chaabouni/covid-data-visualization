@@ -225,13 +225,15 @@ body {
 
 
 .filter {
-    display: flex;
-    width: 400px;
-    flex-direction: column;
-    margin-left: 395px;
-    margin-top: 68px;
-    position: absolute;
 
+    width: 411px;
+    flex-direction: row;
+    margin-left: 300px;
+    position: absolute;
+    z-index: 1;
+    justify-content: space-between;
+    display: none;
+    margin-top: 14px;
 }
 .filter label{
     height: 19px;
@@ -521,6 +523,38 @@ body {
     pointer-events: all;
 }
 
+h3{
+    width: 250px;
+    height: 34.06px;
+    left: 669.97px;
+    top: 466.89px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 26px;
+    color: #FFFFFF;
+    margin-left: 30px;
+    text-transform: capitalize;
+}
+.rect-d{
+    width: 730px;
+    height: 540px;
+    left: 603px;
+    top: 464px;
+    background: #BCA0DC;
+    border-radius: 40px;
+    padding: 1px;
+}
+svg{
+    background: white;
+    border-radius: 40px;
+    transform: translate(2%);
+}
+
+.filter-text{
+    margin-top: 10px;
+}
 .d3-tip {
     line-height: 1;
     font-weight: bold;
@@ -555,12 +589,13 @@ body {
 #covid{
     margin-left: 30%;
     margin-right: 30%;
-    margin-top: 18%;
+    margin-top: 4%;
 }
 
 .error{
     color: #6F6C99;
     text-align: center;
+    padding: 100px;
 }
 
 
@@ -662,6 +697,10 @@ body {
 
     }
     svg{
+        width: 350px;
+        height: 300px;
+    }
+    .rect-d{
         width: 350px;
         height: 300px;
     }

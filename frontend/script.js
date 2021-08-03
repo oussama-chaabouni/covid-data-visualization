@@ -17,6 +17,7 @@ const margin2 = {top: 350, right: 20, bottom: 30, left: 40}
 //
 //
 // bars(g2)
+var filter=document.getElementsByClassName("filter")[0]
 
 function renderBarChart(title) {
     var data = [];
@@ -34,10 +35,26 @@ function renderBarChart(title) {
 
     var chart = function (id) {
         var d=document.createElement("div");
+        // var div=document.createElement("div");
+        // div.className="filter"
+        // var sp=document.createElement("span");
+        // sp.className="filter-data"
+        // sp.innerHTML="Filter Data"
+        // var div2=document.createElement("div");
+        // div2.className="options-container"
+        // var div3=document.createElement("div");
+        // div3.className="selected"
+        // div3.setAttribute('value',"total_cases")
+        // div3.innerHTML="Total Cases"
+        //
+        // div.appendChild(sp).appendChild(div2).appendChild(div3)
+
         d.className="rect-d"
-        document.getElementById("covid").appendChild(d)
-        d3.select('#' + id).append("h3").text(title);
-        const svg = d3.select('#' + id)
+        filter.style.display="flex"
+        document.getElementById("covid").appendChild(d).appendChild(filter)
+        d3.select('#' + id).append("h3").text(title.replaceAll("_"," "));
+        d.appendChild(document.getElementsByTagName("h3")[0])
+        const svg = d3.select(".rect-d")
             .append('svg')
             .attr('width', width - margin.left - margin.right)
             .attr('height', height - margin.top - margin.bottom + 250)
@@ -257,11 +274,12 @@ function selectData(ctry, criterion = "total_cases" ) {
             recentData = data.data.map(d => Object.assign({}, d, { date: new Date(d.date )}));
 
 
-            Object.keys(recentData).forEach((elem,index)=>{
-                    var nextkey = index < Object.keys(recentData).length-1 ? Object.keys(recentData)[index+1] : null;
+            Object.keys(recentData.filter(word=>word!=="date")).forEach((elem,index)=>{
+                // var nextkey = index < Object.keys(recentData).length-1 ? Object.keys(recentData)[index+1] : null;
+                    var nextkey = Object.keys(recentData)[index+1]
 
 
-                    if((nextkey!=null)&&(((Object.keys(recentData[elem])).length) < ((Object.keys((recentData)[nextkey]).length)))){
+                    if((nextkey!=null)&&(((Object.keys(recentData[elem]))) !== ((Object.keys((recentData)[nextkey]))))){
                         critTab=Object.keys(recentData[elem])
                     }
 
@@ -282,7 +300,15 @@ function selectData(ctry, criterion = "total_cases" ) {
                 h.appendChild(t)
 
                 myobj.appendChild(h);
-
+                filter.style.display="flex"
+                document.getElementById("covid").appendChild(d).appendChild(filter)
+                d3.select('#' + id).append("h3").text(title.replaceAll("_"," "));
+                d.appendChild(document.getElementsByTagName("h3")[0])
+                const svg = d3.select(".rect-d")
+                    .append('svg')
+                    .attr('width', width - margin.left - margin.right)
+                    .attr('height', height - margin.top - margin.bottom + 250)
+                    .attr("viewBox", [0, 0, width, height + 50])
 
             }
         })
@@ -311,6 +337,11 @@ function filterData(begin, end, dimension) {
             .width(800)
             .height(500)('covid');
     }else{
+
+        var d=document.createElement("div");
+        filter.style.display="flex"
+        document.getElementById("covid").appendChild(d).appendChild(filter)
+
         var myobj = document.getElementById('covid')
         var h = document.createElement("H1")
         h.className="error"
@@ -319,8 +350,6 @@ function filterData(begin, end, dimension) {
         h.appendChild(t)
 
         myobj.appendChild(h);
-
-
     }
 }
 
