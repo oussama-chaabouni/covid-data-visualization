@@ -61,8 +61,7 @@ app.get('/countries', (request, response) => {
         obj[elem]=(jsonData[elem].location)
 
     })
-    Object.values(obj)
-        .filter((elem => elem !== "Africa"))
+
    // console.log(obj)
     Object.filter = (obj, predicate) =>
         Object.keys(obj)
@@ -101,7 +100,25 @@ app.get('/criteria', (request, response) => {
     //response.send(Object.keys(jsonData[[params.country]].data[jsonData[params.country].data.length - 1]).filter(item => item !== "date"))
 })
 
+app.get('/worldData', (request, response) => {
+    var params = querystring.parse(request.url.split('?')[1]);
+    var readData = fs.readFileSync('data.json' , "utf-8")
+    var jsonData=JSON.parse(readData)
+    var obj={}
+    console.log(Object.keys(jsonData["AFG"].data))
+    Object.keys(jsonData).forEach((elem,index)=>{
 
+        obj[elem]=((jsonData[elem]).data[0])[params.criteria]
+
+    })
+    //console.log(Object.values(obj))
+    //console.log(Object.values(obj["AFG"]["total_cases"]))
+    console.log(Object.keys(obj))
+
+
+    response.send(obj)
+   // response.send((obj["AFG"][200])["new_cases"])
+})
 
 /*
 app.get('/chart', (request, response) => {

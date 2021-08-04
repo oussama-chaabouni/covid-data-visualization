@@ -1,13 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
     <title>Title</title>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.0/d3-tip.js"
             integrity="sha512-9WNL1D7EK7WwRB4smgvl1S2wEGeWP+xHjxEhzyUjasZZQGDUEPHBEkXgVKNcwxqqjzA7CnIEz/MhxiU79IdG1A=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="//d3js.org/d3-geo-projection.v1.min.js"></script>
+    <script src="//d3js.org/topojson.v2.min.js"></script>
+    <style>
 
+        .graticule {
+            fill: none;
+            stroke: #777;
+            stroke-width: .5px;
+            stroke-opacity: .5;
+        }
+        .sphere {
+            fill: #7BB5FF;
+        }
+        .gradient {
+            fill: url(#gradient);
+        }
+        .country {
+            /*fill: #404F24;*/
+            fill-opacity: 0.7;
+            stroke: #eee;
+            stroke-width: 0.2;
+        }
+    </style>
     <link rel="stylesheet" href="dashboard-style.css">
 </head>
 <body>
@@ -85,7 +107,7 @@
 
 <div id="covid"></div>
 <script src="script.js"></script>
-
+<script src="globe.js"></script>
 <script>
     const doc = document;
     const menuOpen = doc.querySelector('.menu');
