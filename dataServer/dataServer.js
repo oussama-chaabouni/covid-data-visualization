@@ -105,15 +105,17 @@ app.get('/worldData', (request, response) => {
     var readData = fs.readFileSync('data.json' , "utf-8")
     var jsonData=JSON.parse(readData)
     var obj={}
-    console.log(Object.keys(jsonData["AFG"].data))
     Object.keys(jsonData).forEach((elem,index)=>{
+        Object.keys(jsonData[elem].data).forEach((elem1,index1)=> {
 
-        obj[elem]=((jsonData[elem]).data[0])[params.criteria]
-
+            obj[elem] = (jsonData[elem])
+            obj[elem].data[elem1]=((jsonData[elem]).data[elem1])[params.criteria]
+        })
     })
-    //console.log(Object.values(obj))
-    //console.log(Object.values(obj["AFG"]["total_cases"]))
-    console.log(Object.keys(obj))
+
+
+    "OWID_AFR OWID_ASI OWID_EUR OWID_EUN OWID_INT OWID_KOS OWID_NAM OWID_CYN OWID_OCE OWID_SAM OWID_WRL".split(" ").forEach(e => delete obj[e]);
+
 
 
     response.send(obj)

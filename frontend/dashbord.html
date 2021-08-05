@@ -9,6 +9,7 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="//d3js.org/d3-geo-projection.v1.min.js"></script>
     <script src="//d3js.org/topojson.v2.min.js"></script>
+    <script src="https://d3js.org/colorbrewer.v1.min.js"></script>
     <style>
 
         .graticule {
@@ -106,8 +107,9 @@
 </div>
 
 <div id="covid"></div>
-<script src="script.js"></script>
 <script src="globe.js"></script>
+<script src="script.js"></script>
+
 <script>
     const doc = document;
     const menuOpen = doc.querySelector('.menu');
@@ -173,7 +175,8 @@
                 criteria[0].appendChild(btn)
                 btn.appendChild(input)
                 btn.appendChild(label)
-
+            },
+        )
 
                 const selected = document.querySelector(".selected");
 
@@ -185,7 +188,28 @@
                 selected.addEventListener("click", () => {
                     optionsContainer.classList.toggle("active");
                 });
+        var x=0;
+            optionsList.forEach(o => {
+                o.addEventListener("click", () => {
+                    var val = (o.querySelector("label").innerHTML).replaceAll(' ', '_')
+                    selected.innerHTML = o.querySelector("label").innerHTML;
+                    selected.setAttribute('value', val)
+                    var crit='total_vaccinations'
+                    Promise.all([
+                        d3.json('./assets/world_countries.json'),
+                        d3.json('http://localhost:7070/worldData?criteria=' + val)
 
+                    ]).then(
+                        d => createMap(null, d[0], d[1])
+                    );
+                    x=x+1;
+
+
+
+                    optionsContainer.classList.remove("active");
+
+                });
+            });
                 optionsList.forEach(o => {
                     o.addEventListener("click", () => {
                         var val = (o.querySelector("label").innerHTML).replaceAll(' ', '_')
@@ -223,8 +247,7 @@
                 };
 
 
-            },
-        )
+
 
 
     })

@@ -1,9 +1,41 @@
-// Promise.all([
-//     d3.json('world_g.json'),
-//     d3.tsv ('world_population.tsv')
-// ]).then(
-//     d => ready(null, d[0], d[1])
-// );
+// const selected = document.querySelector(".selected");
+//
+// const optionsContainer = document.querySelector(".options-container");
+//
+// const optionsList = document.querySelectorAll(".option");
+//
+//
+//
+//
+// optionsList.forEach(o => {
+//     o.addEventListener("click", () => {
+//         var val = (o.querySelector("label").innerHTML).replaceAll(' ', '_')
+//         selected.innerHTML = o.querySelector("label").innerHTML;
+//         selected.setAttribute('value', val)
+//         var crit='total_vaccinations'
+//         Promise.all([
+//             d3.json('./assets/world_countries.json'),
+//             d3.json('http://localhost:7070/worldData?criteria=' + crit)
+//         ]).then(
+//             d => createMap(null, d[0], d[1])
+//         );
+//
+//         optionsContainer.classList.remove("active");
+//
+//     });
+// });
+
+var crit='total_cases'
+Promise.all([
+    d3.json('./assets/world_countries.json'),
+    d3.json('http://localhost:7070/worldData?criteria=' + crit)
+
+]).then(
+    d => createMap(null, d[0], d[1])
+);
+
+
+var filter=document.getElementsByClassName("filter")[0]
 var d=document.createElement("div");
 // var div=document.createElement("div");
 // div.className="filter"
@@ -22,7 +54,48 @@ var d=document.createElement("div");
 d.className="rect-d"
 filter.style.display="flex"
 document.getElementById("covid").appendChild(d).appendChild(filter)
-function createMap() {
+d.style.background="white"
+
+function createMap(error, data, mapCriteria) {
+    var myobj=document.getElementsByTagName('svg')[0]
+    var elem = document.querySelector("#covid")
+    console.log(elem.childNodes.length)
+    if (elem.childNodes.length>=1) {
+        d3.select("svg").remove();
+    }
+    const mapCriteriaById = {};
+    console.log(data)
+    console.log(mapCriteria)
+    //console.log(mapCriteria["AFG"].data)
+    console.log(Object.keys(mapCriteria))
+    Object.keys(mapCriteria).forEach(d => { mapCriteriaById[d] = +mapCriteria[d].data[450]; });
+    console.log(mapCriteriaById)
+    //data.features.forEach(d => { mapCriteria[d].data = mapCriteriaById[d] });
+    const color = d3.scaleThreshold()
+        .domain([
+            100,
+            1000,
+            5000,
+            10000,
+            50000,
+            100000,
+            500000,
+            1000000,
+            5000000,
+            15000000
+        ])
+        .range([
+            'rgb(247,251,255)',
+            'rgb(222,235,247)',
+            'rgb(198,219,239)',
+            'rgb(158,202,225)',
+            'rgb(107,174,214)',
+            'rgb(66,146,198)',
+            'rgb(33,113,181)',
+            'rgb(8,81,156)',
+            'rgb(8,48,107)',
+            'rgb(3,19,43)'
+        ]);
     var width = 800,
         height = 800,
         scale = 300,
@@ -131,11 +204,13 @@ function createMap() {
         // draw country outlines
         globe.selectAll('.country')
             .data(countries)
+            .data(data.features)
             .enter()
             .append('path')
+
             .attr('class', 'country')
             .attr('d', geoPath)
-            .style("fill", "green")
+            .style("fill", d => color(mapCriteriaById[d.id]))
 
     });
 
@@ -162,4 +237,4 @@ function updatePaths(globe, graticule, geoPath) {
     globe.selectAll('path.country').attr('d', geoPath);
 };
 
-createMap();
+//createMap(error, data, mapCriteria);

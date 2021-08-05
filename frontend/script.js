@@ -17,7 +17,7 @@ const margin2 = {top: 350, right: 20, bottom: 30, left: 40}
 //
 //
 // bars(g2)
-var filter=document.getElementsByClassName("filter")[0]
+
 
 function renderBarChart(title) {
     var data = [];
