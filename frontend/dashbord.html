@@ -18,12 +18,15 @@
             stroke-width: .5px;
             stroke-opacity: .5;
         }
+
         .sphere {
             fill: #7BB5FF;
         }
+
         .gradient {
             fill: url(#gradient);
         }
+
         .country {
             /*fill: #404F24;*/
             fill-opacity: 0.7;
@@ -65,11 +68,11 @@
 <div class="radio-selection">
     <div id="world-country-container">
         <input type="radio" class="choice"
-               value="world" name="selec" checked>
+               value="world" name="selec" checked id="radio1" onclick="test()">
         <label class="world-text">World Map</label><br>
 
         <input type="radio" class="choice"
-               value="country" name="selec">
+               value="country" name="selec" id="radio2">
         <label class="country-text">Select a Country</label>
         <select id="cities">
 
@@ -99,9 +102,6 @@
         </div>
         <div class="options-container"></div>
     </div>
-
-
-
 
 
 </div>
@@ -178,23 +178,27 @@
             },
         )
 
-                const selected = document.querySelector(".selected");
+        const selected = document.querySelector(".selected");
 
-                const optionsContainer = document.querySelector(".options-container");
+        const optionsContainer = document.querySelector(".options-container");
 
-                const optionsList = document.querySelectorAll(".option");
+        const optionsList = document.querySelectorAll(".option");
 
 
-                selected.addEventListener("click", () => {
-                    optionsContainer.classList.toggle("active");
-                });
-        var x=0;
-            optionsList.forEach(o => {
-                o.addEventListener("click", () => {
-                    var val = (o.querySelector("label").innerHTML).replaceAll(' ', '_')
-                    selected.innerHTML = o.querySelector("label").innerHTML;
-                    selected.setAttribute('value', val)
-                    var crit='total_vaccinations'
+        selected.addEventListener("click", () => {
+            optionsContainer.classList.toggle("active");
+        });
+        var radios = document.querySelectorAll('input[type=radio][name="selec"]');
+
+        optionsList.forEach(o => {
+            o.addEventListener("click", () => {
+                var val = (o.querySelector("label").innerHTML).replaceAll(' ', '_')
+                selected.innerHTML = o.querySelector("label").innerHTML;
+                selected.setAttribute('value', val)
+                var crit = 'total_vaccinations'
+
+                if (document.getElementById('radio1').checked === true) {
+
                     Promise.all([
                         d3.json('./assets/world_countries.json'),
                         d3.json('http://localhost:7070/worldData?criteria=' + val)
@@ -202,57 +206,62 @@
                     ]).then(
                         d => createMap(null, d[0], d[1])
                     );
-                    x=x+1;
 
+                    console.log('world')
 
+                } else if (document.getElementById('radio2').checked === true) {
+                    console.log('country')
+                    if (document.getElementById('cities').value !== '')
 
-                    optionsContainer.classList.remove("active");
+                        filterData(new Date(begin.value), new Date(end.value), val)
+                    d3.select(".svg_globe").remove();
 
-                });
+                }
+                optionsContainer.classList.remove("active");
+
             });
-                optionsList.forEach(o => {
-                    o.addEventListener("click", () => {
-                        var val = (o.querySelector("label").innerHTML).replaceAll(' ', '_')
-                        selected.innerHTML = o.querySelector("label").innerHTML;
-                        selected.setAttribute('value', val)
-                        if (document.getElementById('cities').value !== '')
 
-                            filterData(new Date(begin.value), new Date(end.value), val)
-                        optionsContainer.classList.remove("active");
-
-                    });
-                });
+        });
 
 
-                function setThisButtonActive(button) {
-                    button.classList.replace('button-rect', 'button-rect-active');
-
-                }
-
-                /* select all active buttons, and remove the active class from them */
-                function resetActiveButton() {
-                    document.querySelectorAll('.button-rect-active').forEach((button) => {
-                        button.classList.replace('button-rect-active', 'button-rect');
-                    });
-                }
+        // optionsList.forEach(o => {
+        //     o.addEventListener("click", () => {
+        //         var val = (o.querySelector("label").innerHTML).replaceAll(' ', '_')
+        //         selected.innerHTML = o.querySelector("label").innerHTML;
+        //         selected.setAttribute('value', val)
+        //
+        //
+        //     });
+        // });
 
 
-                document.getElementById('cities').onchange = function (event) {
-                    begin = document.getElementById('start')
-                    end = document.getElementById('end')
-                    selectData(event.target.value)
-                    selected.innerHTML = "Total Cases"
-                    selected.setAttribute('value', "total_cases")
-
-                };
-
-
-
-
+        document.getElementById('cities').onchange = function (event) {
+            begin = document.getElementById('start')
+            end = document.getElementById('end')
+            selectData(event.target.value)
+            selected.innerHTML = "Total Cases"
+            selected.setAttribute('value', "total_cases")
+            document.getElementById('radio2').checked = true
+        };
 
     })
+    const selected = document.querySelector(".selected");
+
+    function test() {
+        var crit = 'total_cases'
+        Promise.all([
+            d3.json('./assets/world_countries.json'),
+            d3.json('http://localhost:7070/worldData?criteria=' + crit)
+
+        ]).then(
+            d => createMap(null, d[0], d[1]),
+            d3.select("h3").remove(),
+            selected.innerHTML = "Total Cases",
+            selected.setAttribute('value', "total_cases")
+        );
 
 
+    }
 </script>
 
 </body>

@@ -1,31 +1,4 @@
-// const selected = document.querySelector(".selected");
-//
-// const optionsContainer = document.querySelector(".options-container");
-//
-// const optionsList = document.querySelectorAll(".option");
-//
-//
-//
-//
-// optionsList.forEach(o => {
-//     o.addEventListener("click", () => {
-//         var val = (o.querySelector("label").innerHTML).replaceAll(' ', '_')
-//         selected.innerHTML = o.querySelector("label").innerHTML;
-//         selected.setAttribute('value', val)
-//         var crit='total_vaccinations'
-//         Promise.all([
-//             d3.json('./assets/world_countries.json'),
-//             d3.json('http://localhost:7070/worldData?criteria=' + crit)
-//         ]).then(
-//             d => createMap(null, d[0], d[1])
-//         );
-//
-//         optionsContainer.classList.remove("active");
-//
-//     });
-// });
-
-var crit='total_cases'
+var crit = 'total_cases'
 Promise.all([
     d3.json('./assets/world_countries.json'),
     d3.json('http://localhost:7070/worldData?criteria=' + crit)
@@ -35,32 +8,20 @@ Promise.all([
 );
 
 
-var filter=document.getElementsByClassName("filter")[0]
-var d=document.createElement("div");
-// var div=document.createElement("div");
-// div.className="filter"
-// var sp=document.createElement("span");
-// sp.className="filter-data"
-// sp.innerHTML="Filter Data"
-// var div2=document.createElement("div");
-// div2.className="options-container"
-// var div3=document.createElement("div");
-// div3.className="selected"
-// div3.setAttribute('value',"total_cases")
-// div3.innerHTML="Total Cases"
-//
-// div.appendChild(sp).appendChild(div2).appendChild(div3)
+var filter = document.getElementsByClassName("filter")[0]
+var d = document.createElement("div");
 
-d.className="rect-d"
-filter.style.display="flex"
+
+d.className = "rect-d"
+filter.style.display = "flex"
 document.getElementById("covid").appendChild(d).appendChild(filter)
-d.style.background="white"
+d.style.background = "white"
 
 function createMap(error, data, mapCriteria) {
-    var myobj=document.getElementsByTagName('svg')[0]
+    var myobj = document.getElementsByTagName('svg')[0]
     var elem = document.querySelector("#covid")
     console.log(elem.childNodes.length)
-    if (elem.childNodes.length>=1) {
+    if (elem.childNodes.length >= 1) {
         d3.select("svg").remove();
     }
     const mapCriteriaById = {};
@@ -68,7 +29,9 @@ function createMap(error, data, mapCriteria) {
     console.log(mapCriteria)
     //console.log(mapCriteria["AFG"].data)
     console.log(Object.keys(mapCriteria))
-    Object.keys(mapCriteria).forEach(d => { mapCriteriaById[d] = +mapCriteria[d].data[450]; });
+    Object.keys(mapCriteria).forEach(d => {
+        mapCriteriaById[d] = +mapCriteria[d].data[450];
+    });
     console.log(mapCriteriaById)
     //data.features.forEach(d => { mapCriteria[d].data = mapCriteriaById[d] });
     const color = d3.scaleThreshold()
@@ -106,10 +69,11 @@ function createMap(error, data, mapCriteria) {
         };
 
     var svg = d3.select(".rect-d").append('svg')
+        .attr("class", "svg_globe")
         .style('width', 1000)
         .style('height', 1000)
         .style("transform", "translate(-1%,-1%)")
-        // .style('border', '1px black solid')
+    // .style('border', '1px black solid')
 
     var projection = d3.geoOrthographic()
         .scale(scale)
@@ -135,11 +99,11 @@ function createMap(error, data, mapCriteria) {
         .attr("x2", "100%")
         .attr("y2", "100%")
         .attr("spreadMethod", "pad");
-    gradient.append("svg:stop") 		// middle step setting
+    gradient.append("svg:stop")        // middle step setting
         .attr("offset", "50%")
         .attr("stop-color", "#fff")
         .attr("stop-opacity", 0.6);
-    gradient.append("svg:stop") 		// final step setting
+    gradient.append("svg:stop")        // final step setting
         .attr("offset", "100%")
         .attr("stop-color", "#006")
         .attr("stop-opacity", 0.6);
@@ -197,7 +161,7 @@ function createMap(error, data, mapCriteria) {
         .attr('class', 'graticule')
         .attr('d', geoPath);
 
-    d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(function(world) {
+    d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(function (world) {
 
         var countries = topojson.feature(world, world.objects.countries).features;
 
