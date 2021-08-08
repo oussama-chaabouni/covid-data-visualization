@@ -1,11 +1,24 @@
-var crit = 'total_cases'
-Promise.all([
-    d3.json('./assets/world_countries.json'),
-    d3.json('http://localhost:7070/worldData?criteria=' + crit)
+var obj1 = {}
 
-]).then(
-    d => createMap(null, d[0], d[1])
-);
+function loadWorldData(crit) {
+
+    d3.json('http://localhost:7070/worldData').then(data => {
+        Object.keys(data).forEach(elem => {
+            var len = data[elem].data.length
+            for (var i = 0; i < len; i++) {
+                obj1[elem] = (data[elem])
+                obj1[elem].data[i] = (data[elem].data[i][crit])
+            }
+        })
+        "OWID_AFR OWID_ASI OWID_EUR OWID_EUN OWID_INT OWID_KOS OWID_NAM OWID_CYN OWID_OCE OWID_SAM OWID_WRL".split(" ")
+            .forEach(e => delete obj1[e]);
+        data = obj1
+
+        createMap(null, data)
+    })
+}
+
+loadWorldData("total_cases")
 
 
 var filter = document.getElementsByClassName("filter")[0]
@@ -17,36 +30,65 @@ filter.style.display = "flex"
 document.getElementById("covid").appendChild(d).appendChild(filter)
 d.style.background = "white"
 
-function createMap(error, data, mapCriteria) {
+function createMap(error, mapCriteria) {
     var myobj = document.getElementsByTagName('svg')[0]
     var elem = document.querySelector("#covid")
-    console.log(elem.childNodes.length)
+
     if (elem.childNodes.length >= 1) {
         d3.select("svg").remove();
     }
     const mapCriteriaById = {};
-    console.log(data)
-    console.log(mapCriteria)
-    //console.log(mapCriteria["AFG"].data)
-    console.log(Object.keys(mapCriteria))
+
+
     Object.keys(mapCriteria).forEach(d => {
         mapCriteriaById[d] = +mapCriteria[d].data[450];
     });
-    console.log(mapCriteriaById)
+
     //data.features.forEach(d => { mapCriteria[d].data = mapCriteriaById[d] });
+    var arr = Object.values(mapCriteriaById);
+
+    const newArray = arr.filter(function (value) {
+        return !Number.isNaN(value);
+    });
+
+    newArray.sort(function (a, b) {
+        return a - b;
+    });
+
+    var max = Math.max(...newArray)
+    var min = Math.min(...newArray)
+
+
+    // var tab=[]
+    // newArray.reduce(function (sum, value,index) {
+    //     return tab[index/((newArray.length)/8)]=((sum + value)/(index+1));
+    // }, 0)
+    var tab = []
+
+
+    tab.sort(function (a, b) {
+        return a - b;
+    });
+
+    var step = Math.round(newArray.length / 8)
+    var colorRange = []
+    var i = 0;
+
+    newArray.forEach((elem, index) => {
+
+        if (index % step === 0) {
+            i = i + 1
+            colorRange[i] = newArray[index + 1]
+
+
+        }
+        colorRange.length = 8
+    })
+    colorRange[0] = min
+    colorRange[colorRange.length - 1] = max
+
     const color = d3.scaleThreshold()
-        .domain([
-            100,
-            1000,
-            5000,
-            10000,
-            50000,
-            100000,
-            500000,
-            1000000,
-            5000000,
-            15000000
-        ])
+        .domain(colorRange)
         .range([
             'rgb(247,251,255)',
             'rgb(222,235,247)',
@@ -138,7 +180,6 @@ function createMap(error, data, mapCriteria) {
             .filter(() => !(d3.event.touches && d3.event.touches.length === 2))
         )
 
-    // code snippet from http://stackoverflow.com/questions/36614251
     // var λ = d3.scaleLinear()
     //     .domain([-width, width])
     //     .range([-180, 180])
@@ -164,35 +205,23 @@ function createMap(error, data, mapCriteria) {
     d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(function (world) {
 
         var countries = topojson.feature(world, world.objects.countries).features;
+        d3.json('./assets/world_countries.json').then(data => {
 
-        // draw country outlines
-        globe.selectAll('.country')
-            .data(countries)
-            .data(data.features)
-            .enter()
-            .append('path')
 
-            .attr('class', 'country')
-            .attr('d', geoPath)
-            .style("fill", d => color(mapCriteriaById[d.id]))
+            // draw country outlines
+            globe.selectAll('.country')
+                .data(countries)
+                .data(data.features)
+                .enter()
+                .append('path')
 
-    });
+                .attr('class', 'country')
+                .attr('d', geoPath)
+                .style("fill", d => color(mapCriteriaById[d.id]))
 
-//         function zoomed() {
-//             var transform = d3.event.transform;
-//             var r = {
-//                 x: λ(transform.x),
-//             };
-// //        var k = Math.sqrt(100 / projection.scale());
-// //         if (d3.event.sourceEvent.wheelDelta) {
-// //           projection.scale(scale * transform.k)
-// //           transform.x = lastX;
-// //         } else {
-//             projection.rotate([origin.x + r.x, 0]);
-//             lastX = transform.x;
-// //         }
-//             updatePaths(globe, graticule, geoPath);
-//         };
+        });
+    })
+
 
 };
 

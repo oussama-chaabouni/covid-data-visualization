@@ -101,24 +101,10 @@ app.get('/criteria', (request, response) => {
 })
 
 app.get('/worldData', (request, response) => {
-    var params = querystring.parse(request.url.split('?')[1]);
     var readData = fs.readFileSync('data.json' , "utf-8")
     var jsonData=JSON.parse(readData)
-    var obj={}
-    Object.keys(jsonData).forEach((elem,index)=>{
-        Object.keys(jsonData[elem].data).forEach((elem1,index1)=> {
+    response.send(jsonData)
 
-            obj[elem] = (jsonData[elem])
-            obj[elem].data[elem1]=((jsonData[elem]).data[elem1])[params.criteria]
-        })
-    })
-
-
-    "OWID_AFR OWID_ASI OWID_EUR OWID_EUN OWID_INT OWID_KOS OWID_NAM OWID_CYN OWID_OCE OWID_SAM OWID_WRL".split(" ").forEach(e => delete obj[e]);
-
-
-
-    response.send(obj)
    // response.send((obj["AFG"][200])["new_cases"])
 })
 

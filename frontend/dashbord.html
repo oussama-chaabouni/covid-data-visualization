@@ -199,13 +199,7 @@
 
                 if (document.getElementById('radio1').checked === true) {
 
-                    Promise.all([
-                        d3.json('./assets/world_countries.json'),
-                        d3.json('http://localhost:7070/worldData?criteria=' + val)
-
-                    ]).then(
-                        d => createMap(null, d[0], d[1])
-                    );
+                    loadWorldData(val)
 
                     console.log('world')
 
@@ -224,17 +218,6 @@
         });
 
 
-        // optionsList.forEach(o => {
-        //     o.addEventListener("click", () => {
-        //         var val = (o.querySelector("label").innerHTML).replaceAll(' ', '_')
-        //         selected.innerHTML = o.querySelector("label").innerHTML;
-        //         selected.setAttribute('value', val)
-        //
-        //
-        //     });
-        // });
-
-
         document.getElementById('cities').onchange = function (event) {
             begin = document.getElementById('start')
             end = document.getElementById('end')
@@ -249,16 +232,11 @@
 
     function test() {
         var crit = 'total_cases'
-        Promise.all([
-            d3.json('./assets/world_countries.json'),
-            d3.json('http://localhost:7070/worldData?criteria=' + crit)
 
-        ]).then(
-            d => createMap(null, d[0], d[1]),
-            d3.select("h3").remove(),
+        loadWorldData(crit)
+        d3.select("h3").remove(),
             selected.innerHTML = "Total Cases",
             selected.setAttribute('value', "total_cases")
-        );
 
 
     }
