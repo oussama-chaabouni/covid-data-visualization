@@ -9,7 +9,6 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="//d3js.org/d3-geo-projection.v1.min.js"></script>
     <script src="//d3js.org/topojson.v2.min.js"></script>
-    <script src="https://d3js.org/colorbrewer.v1.min.js"></script>
     <style>
 
         .graticule {
@@ -127,7 +126,27 @@
     menuClose.addEventListener('click', () => {
         overlay.classList.remove('overlay--active');
     });
+    var obj1 = {}
 
+    function loadWorldData(crit) {
+
+        d3.json('http://localhost:7070/worldData').then(data => {
+            Object.keys(data).forEach(elem => {
+                var len = data[elem].data.length
+                for (var i = 0; i < len; i++) {
+                    obj1[elem] = (data[elem])
+                    obj1[elem].data[i] = (data[elem].data[i][crit])
+                }
+            })
+            "OWID_AFR OWID_ASI OWID_EUR OWID_EUN OWID_INT OWID_KOS OWID_NAM OWID_CYN OWID_OCE OWID_SAM OWID_WRL".split(" ")
+                .forEach(e => delete obj1[e]);
+            data = obj1
+
+            createMap(null, data)
+        })
+    }
+
+    loadWorldData("total_cases")
 
     d3.json('http://localhost:7070/countries').then(function (data) {
             var coutriesSelect = document.getElementById('cities');
@@ -230,12 +249,14 @@
 
     function test() {
         var crit = 'total_cases'
-
+        d3.select("svg").remove();
+        var d = document.getElementsByClassName('rect-d')[0];
+        d.style.background = "white"
+        d3.select("h3").remove()
         loadWorldData(crit)
-        d3.select("h3").remove(),
+
             selected.innerHTML = "Total Cases",
             selected.setAttribute('value', "total_cases")
-
 
     }
 </script>
