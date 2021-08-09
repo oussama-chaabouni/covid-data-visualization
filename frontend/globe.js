@@ -31,6 +31,8 @@ document.getElementById("covid").appendChild(d).appendChild(filter)
 d.style.background = "white"
 
 function createMap(error, mapCriteria) {
+    var d = document.getElementsByClassName('rect-d')[0];
+    d.style.background = "white"
     var myobj = document.getElementsByTagName('svg')[0]
     var elem = document.querySelector("#covid")
 
@@ -101,8 +103,8 @@ function createMap(error, mapCriteria) {
             'rgb(8,48,107)',
             'rgb(3,19,43)'
         ]);
-    var width = 800,
-        height = 800,
+    var width = 600,
+        height = 600,
         scale = 300,
         lastX = 0,
         origin = {
@@ -112,9 +114,6 @@ function createMap(error, mapCriteria) {
 
     var svg = d3.select(".rect-d").append('svg')
         .attr("class", "svg_globe")
-        .style('width', 1000)
-        .style('height', 1000)
-        .style("transform", "translate(-1%,-1%)")
     // .style('border', '1px black solid')
 
     var projection = d3.geoOrthographic()

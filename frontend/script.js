@@ -269,7 +269,7 @@ function selectData(ctry, criterion = "total_cases" ) {
     var dimension = document.getElementsByTagName('button').value
 
     emptyChart();
-    d3.json('http://localhost:7070/data?country=' + ctry)
+    d3.json('http://192.168.1.17:7070/data?country=' + ctry)
         .then(data => {
             recentData = data.data.map(d => Object.assign({}, d, { date: new Date(d.date )}));
 

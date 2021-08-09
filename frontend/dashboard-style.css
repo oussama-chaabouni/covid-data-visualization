@@ -62,6 +62,7 @@ body {
     display: flex;
     align-items: center;
     width: 100px;
+    height: 100%;
     justify-content: space-between;
     font-family: ABeeZee;
     font-style: normal;
@@ -85,12 +86,13 @@ body {
 .navbar a:hover {
     background-color: #ddd;
     color: black;
+    border-radius: 20px;
 }
 
 .navbar-right {
     display: flex;
     width: 300px;
-    height: 100px;
+    height: 100%;
     justify-content: space-between;
 }
 
@@ -103,7 +105,7 @@ body {
     height: 100%;
     width: 0;
     position: fixed;
-    z-index: 1;
+    z-index: 2;
     left: 0;
     top: 0;
     background-color: #FFF6F0;
@@ -598,7 +600,12 @@ svg{
     padding: 100px;
 }
 
-
+.svg_globe{
+    width:1000px;
+    height: 1000px;
+    transform: translate(5%, 10%);
+    overflow: hidden;
+}
 
 
 @media screen and (max-height: 450px) {
@@ -616,6 +623,9 @@ svg{
 }
 
 @media only screen and (max-width: 800px) {
+    body{
+        overflow: hidden;
+    }
     .navbar-right {
         display: none;
     }
@@ -632,20 +642,33 @@ svg{
 
 
     .filter {
-        display: flex;
-        align-items: center;
-        justify-content: center;
         flex-direction: row;
-        flex-wrap: wrap;
-        flex-flow: row wrap;
-        align-content: flex-end;
+        position: absolute;
+        z-index: 1;
+        justify-content: space-between;
+        display: none;
         min-height: 62px;
-        max-height: 563px;
-        gap: 5px;
-        max-width: 271px;
-        margin-left: 23%;
+        max-height: 100px;
+        gap: 0px;
+        max-width: 160px;
+        margin-left: 35%;
+        margin-top: 5px;
     }
-
+    .filter-text {
+        display: flex;
+        margin-top: 7px;
+        width: 119px;
+        height: 46px;
+    }
+    .selected ,.filter label{
+        font-size: 14px;
+    }
+    .selected::after {
+        top: 3px;
+    }
+    .filter .option, .selected {
+        padding: 9px 24px;
+    }
     .page-title{
         width: 174.67px;
         height: 60px;
@@ -655,6 +678,7 @@ svg{
     }
     .filter-data{
         margin-top: 0px;
+        font-size: 16px;
     }
 
 
@@ -662,6 +686,8 @@ svg{
         width: 370px;
         height: 147px;
         left: 50px;
+        margin-left: 15px;
+        margin-top: 80px;
     }
 
     #world-country-container{
@@ -697,11 +723,26 @@ svg{
 
     }
     svg{
-        width: 350px;
+        width: 360px;
         height: 300px;
+        transform: translate(0%,-7%);
+    }
+    .svg_globe{
+
+        width: 600px;
+        height: 600px;
+        transform: scale(0.5) translate(-40%, -25%);
+        position: absolute;
+        overflow: hidden;
     }
     .rect-d{
-        width: 350px;
-        height: 300px;
+        width: 360px;
+        height: 352px;
+        transform: translate(-2%,-7%);
+    }
+    h3{
+        width: 145px;
+        font-size: 14px;
+        margin-left: 6px;
     }
 }
