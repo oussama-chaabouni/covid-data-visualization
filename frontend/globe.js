@@ -5,11 +5,10 @@ var d = document.createElement("div");
 d.className = "rect-d"
 filter.style.display = "flex"
 document.getElementById("covid").appendChild(d).appendChild(filter)
-d.style.background = "white"
+d.style.background = "transparent"
 
 function createMap(error, mapCriteria) {
     var d = document.getElementsByClassName('rect-d')[0];
-    d.style.background = "white"
     var myobj = document.getElementsByTagName('svg')[0]
     var elem = document.querySelector("#covid")
 
@@ -17,16 +16,16 @@ function createMap(error, mapCriteria) {
         d3.select("svg").remove();
     }
     const mapCriteriaById = {};
-
+console.log(mapCriteria)
 
     Object.keys(mapCriteria).forEach(d => {
         mapCriteriaById[d] = +mapCriteria[d].data[450];
     });
-    const format = d3.format(',');
+    //const format = d3.format(',');
     const tip = d3.tip()
         .attr('class', 'd3-tip')
         .offset([-10, 0])
-        .html(d => `<strong style='color:red'>Country: </strong><span class='details'>${d.properties.name}<br></span><strong style='color:red'>Value: </strong><span class='details'>${format(mapCriteriaById[d.id])}</span>`);
+        .html(d => `<strong style='color:red'>Country: </strong><span class='details'>${d.properties.name}<br></span><strong style='color:red'>Value: </strong><span class='details'>${mapCriteriaById[d.id]}</span>`);
 
 
     //data.features.forEach(d => { mapCriteria[d].data = mapCriteriaById[d] });

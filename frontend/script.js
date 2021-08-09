@@ -269,7 +269,7 @@ function selectData(ctry, criterion = "total_cases" ) {
     var dimension = document.getElementsByTagName('button').value
 
     emptyChart();
-    d3.json('http://192.168.1.17:7070/data?country=' + ctry)
+    d3.json('http://localhost:7070/data?country=' + ctry)
         .then(data => {
             recentData = data.data.map(d => Object.assign({}, d, { date: new Date(d.date )}));
 
@@ -293,22 +293,20 @@ function selectData(ctry, criterion = "total_cases" ) {
                 .width(800)
                 .height(500)('covid');
             }else{
+                var d=document.createElement("div");
+                filter.style.display="flex"
+                document.getElementById("covid").appendChild(d).appendChild(filter)
+
                 var myobj = document.getElementById('covid')
                 var h = document.createElement("H1")
                 h.className="error"
+
                 var t = document.createTextNode("No Data Found");
                 h.appendChild(t)
 
                 myobj.appendChild(h);
-                filter.style.display="flex"
-                document.getElementById("covid").appendChild(d).appendChild(filter)
-                d3.select('#' + id).append("h3").text(title.replaceAll("_"," "));
-                d.appendChild(document.getElementsByTagName("h3")[0])
-                const svg = d3.select(".rect-d")
-                    .append('svg')
-                    .attr('width', width - margin.left - margin.right)
-                    .attr('height', height - margin.top - margin.bottom + 250)
-                    .attr("viewBox", [0, 0, width, height + 50])
+                myobj.append(rect)
+                d3.select(".svg_globe").remove();
 
             }
         })
@@ -322,7 +320,7 @@ function emptyChart(){
     var myobj = document.getElementById('covid')
     myobj.innerHTML = '';
 }
-
+var rect=document.getElementsByClassName('rect-d')[0]
 function filterData(begin, end, dimension) {
     emptyChart();
 
@@ -350,6 +348,7 @@ function filterData(begin, end, dimension) {
         h.appendChild(t)
 
         myobj.appendChild(h);
+        myobj.append(rect)
     }
 }
 

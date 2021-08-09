@@ -1,6 +1,7 @@
 body {
     margin: 0px;
     overflow-x: hidden;
+    background-color: #e7e7e7;
 }
 
 
@@ -544,12 +545,12 @@ h3{
     height: 540px;
     left: 603px;
     top: 464px;
-    background: #BCA0DC;
+    background: white;
     border-radius: 40px;
     padding: 1px;
 }
 svg{
-    background: white;
+    background: transparent;
     border-radius: 40px;
     transform: translate(2%);
 }
@@ -606,8 +607,12 @@ svg{
     transform: translate(5%, 10%);
     overflow: hidden;
 }
-
-
+.sphere {
+    fill:  white;
+}
+.gradient {
+    fill: none;
+}
 @media screen and (max-height: 450px) {
     .overlay a {
         font-size: 20px;

@@ -71,7 +71,9 @@ app.get('/countries', (request, response) => {
     var filtered = Object.filter(obj, elem => elem !== "Africa"&& elem !== "Asia"&& elem !== "Europe"&& elem !== "European Union"
                                             && elem !== "Kosovo"&& elem !== "North America"
                                             && elem !== "Northern Cyprus"&& elem !== "Oceania"
-                                            && elem !== "South America"&& elem !== "World")
+                                            && elem !== "South America"&& elem !== "World"
+                                            && elem!=="Turks and Caicos Islands"&& elem !== "Bonaire Sint Eustatius and Saba"
+                                             && elem!=="Wallis and Futuna"&& elem!=="Saint Helena"&& elem!=="Sint Maarten (Dutch part)"&& elem!=="Wallis and Futuna")
 
 
     response.send(filtered)

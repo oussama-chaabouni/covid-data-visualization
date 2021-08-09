@@ -127,10 +127,14 @@
         overlay.classList.remove('overlay--active');
     });
     var obj1 = {}
-
-    function loadWorldData(crit) {
+    var obj2={}
+    function loadWorldData(crit,begin,end) {
 
         d3.json('http://localhost:7070/worldData').then(data => {
+
+
+            obj2=data["AFG"].data.filter(item => item.date > "2021-05-01" && item.date < "2021-07-01")//.map((item) => Object.assign({}, item, {date: new Date(item.date)}))
+            console.log(obj2)
             Object.keys(data).forEach(elem => {
                 var len = data[elem].data.length
                 for (var i = 0; i < len; i++) {
@@ -140,9 +144,9 @@
             })
             "OWID_AFR OWID_ASI OWID_EUR OWID_EUN OWID_INT OWID_KOS OWID_NAM OWID_CYN OWID_OCE OWID_SAM OWID_WRL".split(" ")
                 .forEach(e => delete obj1[e]);
-            data = obj1
+            //data = obj1
 
-            createMap(null, data)
+            createMap(null, obj1)
         })
     }
 
@@ -219,7 +223,9 @@
                 if (document.getElementById('radio1').checked === true) {
 
                     loadWorldData(val)
-
+                    if (document.contains(document.getElementsByClassName("error")[0])) {
+                        document.getElementsByClassName("error")[0].remove();
+                    }
 
                 } else if (document.getElementById('radio2').checked === true) {
                     if (document.getElementById('cities').value !== '')
@@ -249,10 +255,16 @@
 
     function test() {
         var crit = 'total_cases'
-        d3.select("svg").remove();
+
         var d = document.getElementsByClassName('rect-d')[0];
-        d.style.background = "white"
+        if (document.contains(document.getElementsByClassName("error")[0])) {
+            document.getElementsByClassName("error")[0].remove();
+        }else{
+            d3.select("svg").remove();
+        d.style.background = "transparent"
         d3.select("h3").remove()
+
+        }
         loadWorldData(crit)
 
             selected.innerHTML = "Total Cases",
