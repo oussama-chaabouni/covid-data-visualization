@@ -536,7 +536,7 @@ h3{
     font-weight: normal;
     font-size: 18px;
     line-height: 26px;
-    color: #FFFFFF;
+    color: #6F6C99;
     margin-left: 30px;
     text-transform: capitalize;
 }
@@ -593,6 +593,7 @@ svg{
     margin-left: 30%;
     margin-right: 30%;
     margin-top: 4%;
+    margin-bottom: 500px;
 }
 
 .error{
@@ -602,9 +603,9 @@ svg{
 }
 
 .svg_globe{
-    width:1000px;
-    height: 1000px;
-    transform: translate(5%, 10%);
+    width: 900px;
+    height: 900px;
+    transform: translate(10%, 17%);
     overflow: hidden;
 }
 .sphere {
@@ -612,6 +613,41 @@ svg{
 }
 .gradient {
     fill: none;
+}
+footer{
+    position: absolute;
+    height: 89px;
+    left: 0px;
+    bottom: -480px;
+    width: 100%;
+    align-content: center;
+    background: linear-gradient(180deg, rgba(255, 246, 240, 0.38) 0%, rgba(251, 232, 233, 0.31) 57.44%, rgba(254, 243, 238, 0.36392) 64.76%, rgba(252, 252, 255, 0.57) 100%);
+    text-align: center;
+}
+p{
+    margin-left: 45%;
+    width: 219.83px;
+    height: 12px;
+    text-align: center;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 18px;
+    color: #330E4C;
+}
+footer a{
+    width: 219.83px;
+    height: 12px;
+    text-align: center;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 18px;
+    position: center;
+    color: #330E4C;
+    text-decoration: none;
 }
 @media screen and (max-height: 450px) {
     .overlay a {
@@ -629,7 +665,7 @@ svg{
 
 @media only screen and (max-width: 800px) {
     body{
-        overflow: hidden;
+        overflow-x: hidden;
     }
     .navbar-right {
         display: none;
@@ -679,7 +715,7 @@ svg{
         height: 60px;
         left: 108px;
         top: 73px;
-
+        margin-top: 55px;
     }
     .filter-data{
         margin-top: 0px;
@@ -692,7 +728,7 @@ svg{
         height: 147px;
         left: 50px;
         margin-left: 15px;
-        margin-top: 80px;
+        margin-top: 50%;
     }
 
     #world-country-container{
@@ -701,9 +737,11 @@ svg{
 
     }
     .date-selection{
-        width: 356px;
+        width: 210px;
+        flex-direction: row;
+        flex-wrap: wrap;
         height: 37px;
-
+        gap: 10px;
     }
     #end-label {
         margin-left: 0px;
@@ -711,21 +749,24 @@ svg{
     #start,#end{
          height: 32px;
     }
+    #end{
+        width: 129px;
+    }
     #start-label {
         width: 50px;
         margin-right: 0;
         font-size: 11px;
     }
     #end-label {
-        width: 37px;
+        width: 50px;
         margin-right: 0;
         font-size: 11px;
     }
     #covid{
         margin-right: 0;
         margin-left: 15px;
-        margin-top: 43px;
-
+        margin-top: 80px;
+        margin-bottom: 50px;
     }
     svg{
         width: 360px;
@@ -749,5 +790,17 @@ svg{
         width: 145px;
         font-size: 14px;
         margin-left: 6px;
+    }
+    footer{
+        position: absolute;
+        height: 89px;
+        left: 0px;
+        bottom: -284px;
+        width: 100%;
+        align-content: center;
+    }
+    p{
+        margin-left: 25%;
+
     }
 }

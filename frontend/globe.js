@@ -16,11 +16,16 @@ function createMap(error, mapCriteria) {
         d3.select("svg").remove();
     }
     const mapCriteriaById = {};
-console.log(mapCriteria)
 
+    function calculate(array) {
+        const sum = array.reduce((acc, cur) => acc + cur);
+        const average = sum/array.length;
+        return Math.round(average);
+    }
     Object.keys(mapCriteria).forEach(d => {
-        mapCriteriaById[d] = +mapCriteria[d].data[450];
+        mapCriteriaById[d] = +calculate(mapCriteria[d]);
     });
+    console.log(mapCriteriaById)
     //const format = d3.format(',');
     const tip = d3.tip()
         .attr('class', 'd3-tip')

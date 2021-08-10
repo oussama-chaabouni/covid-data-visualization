@@ -43,7 +43,7 @@
 
     <div class="navbar-right">
         <a class="about" href="#about"><img src="./assets/about-logo.svg" class="about-icon">About</a>
-        <a class="github" href="#github"><img src="./assets/github-logo.svg" class="github-icon">Github</a>
+        <a class="github" href="https://github.com/oussama-chaabouni/covid-data-visualization" target="_blank"><img src="./assets/github-logo.svg" class="github-icon">Github</a>
 
     </div>
 
@@ -54,7 +54,7 @@
     <a class="close">&times;</a>
     <div class="overlay__content">
         <a class="about-mobile"><img src="./assets/about-logo.svg" class="about-icon">About</a>
-        <a class="github-mobile"><img src="./assets/github-logo.svg" class="github-icon">Github</a>
+        <a class="github-mobile"href="https://github.com/oussama-chaabouni/covid-data-visualization" target="_blank"><img src="./assets/github-logo.svg" class="github-icon">Github</a>
     </div>
 </div>
 
@@ -118,7 +118,7 @@
     function refetchData(v) {
         console.log(v)
     }
-
+    document.getElementById('end').valueAsDate = new Date();
     menuOpen.addEventListener('click', () => {
         overlay.classList.add('overlay--active');
     });
@@ -126,31 +126,36 @@
     menuClose.addEventListener('click', () => {
         overlay.classList.remove('overlay--active');
     });
+    var begin = document.getElementById('start')
+    var end = document.getElementById('end')
     var obj1 = {}
     var obj2={}
     function loadWorldData(crit,begin,end) {
-
+         begin = document.getElementById('start').value
+         end = document.getElementById('end').value
         d3.json('http://localhost:7070/worldData').then(data => {
 
-
-            obj2=data["AFG"].data.filter(item => item.date > "2021-05-01" && item.date < "2021-07-01")//.map((item) => Object.assign({}, item, {date: new Date(item.date)}))
+        Object.keys(data).forEach(elem=>{
+            obj2[elem]=data[elem].data.map((item) => Object.assign({}, item, {date: new Date(item.date)}))
+            obj2[elem]=data[elem].data.filter(item => item.date > begin && item.date < end)
+        })
             console.log(obj2)
-            Object.keys(data).forEach(elem => {
-                var len = data[elem].data.length
+            Object.keys(obj2).forEach(elem => {
+                var len = obj2[elem].length
                 for (var i = 0; i < len; i++) {
-                    obj1[elem] = (data[elem])
-                    obj1[elem].data[i] = (data[elem].data[i][crit])
+                    obj1[elem] = (obj2[elem])
+                    obj1[elem][i] = (obj2[elem][i][crit])
                 }
             })
             "OWID_AFR OWID_ASI OWID_EUR OWID_EUN OWID_INT OWID_KOS OWID_NAM OWID_CYN OWID_OCE OWID_SAM OWID_WRL".split(" ")
                 .forEach(e => delete obj1[e]);
             //data = obj1
-
+            console.log(obj1)
             createMap(null, obj1)
         })
     }
 
-    loadWorldData("total_cases")
+    loadWorldData("total_cases",begin.value,end.value)
 
     d3.json('http://localhost:7070/countries').then(function (data) {
             var coutriesSelect = document.getElementById('cities');
@@ -165,20 +170,29 @@
 
         },
     )
-    var begin = document.getElementById('start')
-    var end = document.getElementById('end')
-    document.getElementById('end').valueAsDate = new Date();
+
+
     begin.onchange = function () {
-        console.log(begin.value)
         begin = document.getElementById('start')
+        if (document.getElementById('radio1').checked === true) {
+            loadWorldData(document.querySelector(".selected").getAttribute('value'),begin.value,end.value)
+        }else{
+        console.log(begin.value)
+
         filterData(new Date(begin.value), new Date(end.value), document.querySelector(".selected").getAttribute('value'))
+        }
     }
 
 
     end.onchange = function () {
         end = document.getElementById('end')
-        filterData(new Date(begin.value), new Date(end.value), document.querySelector(".selected").getAttribute('value'))
+        if (document.getElementById('radio1').checked === true) {
+            loadWorldData(document.querySelector(".selected").getAttribute('value'),begin.value,end.value)
+        }else{
 
+
+        filterData(new Date(begin.value), new Date(end.value), document.querySelector(".selected").getAttribute('value'))
+        }
     }
     d3.json('http://localhost:7070/criteria').then(function (data) {
 
@@ -272,6 +286,9 @@
 
     }
 </script>
-
+<footer>
+    <p>Data Source</p>
+    <p><a href="https://ourworldindata.org/" target="_blank">ourworldindata.org</a></p>
+</footer>
 </body>
 </html>
