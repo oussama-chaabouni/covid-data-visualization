@@ -15,6 +15,134 @@ function createMap(error, mapCriteria) {
     if (elem.childNodes.length >= 1) {
         d3.select("svg").remove();
     }
+
+    //const format = d3.format(',');
+
+
+
+
+    var width = 600,
+        height = 600,
+        scale = 300,
+        lastX = 0,
+        origin = {
+            x: 55,
+            y: 0
+        };
+
+    var svg = d3.select(".rect-d").append('svg')
+        .attr("class", "svg_globe")
+    // .style('border', '1px black solid')
+   // svg.call(tip);
+    var projection = d3.geoOrthographic()
+        .scale(scale)
+        .translate([width / 2, height / 2])
+        .rotate([origin.x, origin.y])
+        .center([0, 0])
+        .clipAngle(90);
+
+    var geoPath = d3.geoPath()
+        .projection(projection);
+
+    var graticule = d3.geoGraticule();
+    var sphere = {type: "Sphere"};
+
+    // setup the gradient to make the earth look brighter at top left
+    var gradient = svg.append("svg:defs")
+        .append("svg:linearGradient")
+        .attr("id", "gradient")
+        .attr("x1", "0%")
+        .attr("y1", "0%")
+        .attr("fx1", "50%")
+        .attr("fy1", "50%")
+        .attr("x2", "100%")
+        .attr("y2", "100%")
+        .attr("spreadMethod", "pad");
+    gradient.append("svg:stop")        // middle step setting
+        .attr("offset", "50%")
+        .attr("stop-color", "#fff")
+        .attr("stop-opacity", 0.6);
+    gradient.append("svg:stop")        // final step setting
+        .attr("offset", "100%")
+        .attr("stop-color", "#006")
+        .attr("stop-opacity", 0.6);
+    // end setup gradient
+
+
+    // zoom AND rotate
+    let rotate0, coords0;
+    const coords = () => projection.rotate(rotate0)
+        .invert([d3.event.x, d3.event.y]);
+
+    svg
+        .call(d3.drag()
+            .on('start', () => {
+                rotate0 = projection.rotate();
+                coords0 = coords();
+                moving = true;
+            })
+            .on('drag', () => {
+                const coords1 = coords();
+                projection.rotate([
+                    rotate0[0] + coords1[0] - coords0[0],
+                    rotate0[1] + coords1[1] - coords0[1],
+                ])
+                updatePaths(globe, graticule, geoPath);
+                return [globe,graticule,geoPath]
+            })
+            .on('end', () => {
+                moving = false;
+                updatePaths(globe, graticule, geoPath);
+                return [globe,graticule,geoPath]
+            })
+            // Goal: let zoom handle pinch gestures (not working correctly).
+            .filter(() => !(d3.event.touches && d3.event.touches.length === 2))
+        )
+
+    // var λ = d3.scaleLinear()
+    //     .domain([-width, width])
+    //     .range([-180, 180])
+
+    var globe = svg.append('g');
+
+    // Draw the sphere for the earth
+    globe.append("path")
+        .datum(sphere)
+        .attr("class", "sphere")
+        .attr("d", geoPath);
+    // draw a gradient sphere because it looks cool
+    globe.append("path")
+        .datum(sphere)
+        .attr("class", "gradient")
+        .attr("d", geoPath)
+
+    globe.append('path')
+        .datum(graticule)
+        .attr('class', 'graticule')
+        .attr('d', geoPath);
+
+
+        d3.json('./assets/world_countries.json').then(data => {
+
+
+            // draw country outlines
+            globe.selectAll('.country')
+                .data(data.features)
+                .enter()
+                .append('path')
+
+                .attr('class', 'country')
+                .attr('d', geoPath)
+                //.style("fill", d => color(mapCriteriaById[d.id]))
+
+
+        });
+
+
+
+    return [globe,geoPath]
+};
+function drawColors(globe,geoPath,mapCriteria){
     const mapCriteriaById = {};
 
     function calculate(array) {
@@ -25,12 +153,6 @@ function createMap(error, mapCriteria) {
     Object.keys(mapCriteria).forEach(d => {
         mapCriteriaById[d] = +calculate(mapCriteria[d]);
     });
-    console.log(mapCriteriaById)
-    //const format = d3.format(',');
-    const tip = d3.tip()
-        .attr('class', 'd3-tip')
-        .offset([-10, 0])
-        .html(d => `<strong style='color:red'>Country: </strong><span class='details'>${d.properties.name}<br></span><strong style='color:red'>Value: </strong><span class='details'>${mapCriteriaById[d.id]}</span>`);
 
 
     //data.features.forEach(d => { mapCriteria[d].data = mapCriteriaById[d] });
@@ -89,119 +211,15 @@ function createMap(error, mapCriteria) {
             '#54278f',
             '#3f007d'
         ]);
-    var width = 600,
-        height = 600,
-        scale = 300,
-        lastX = 0,
-        origin = {
-            x: 55,
-            y: 0
-        };
-
-    var svg = d3.select(".rect-d").append('svg')
-        .attr("class", "svg_globe")
-    // .style('border', '1px black solid')
-    svg.call(tip);
-    var projection = d3.geoOrthographic()
-        .scale(scale)
-        .translate([width / 2, height / 2])
-        .rotate([origin.x, origin.y])
-        .center([0, 0])
-        .clipAngle(90);
-
-    var geoPath = d3.geoPath()
-        .projection(projection);
-
-    var graticule = d3.geoGraticule();
-    var sphere = {type: "Sphere"};
-
-    // setup the gradient to make the earth look brighter at top left
-    var gradient = svg.append("svg:defs")
-        .append("svg:linearGradient")
-        .attr("id", "gradient")
-        .attr("x1", "0%")
-        .attr("y1", "0%")
-        .attr("fx1", "50%")
-        .attr("fy1", "50%")
-        .attr("x2", "100%")
-        .attr("y2", "100%")
-        .attr("spreadMethod", "pad");
-    gradient.append("svg:stop")        // middle step setting
-        .attr("offset", "50%")
-        .attr("stop-color", "#fff")
-        .attr("stop-opacity", 0.6);
-    gradient.append("svg:stop")        // final step setting
-        .attr("offset", "100%")
-        .attr("stop-color", "#006")
-        .attr("stop-opacity", 0.6);
-    // end setup gradient
-
-
-    // zoom AND rotate
-    let rotate0, coords0;
-    const coords = () => projection.rotate(rotate0)
-        .invert([d3.event.x, d3.event.y]);
-
-    svg
-        .call(d3.drag()
-            .on('start', () => {
-                rotate0 = projection.rotate();
-                coords0 = coords();
-                moving = true;
-            })
-            .on('drag', () => {
-                const coords1 = coords();
-                projection.rotate([
-                    rotate0[0] + coords1[0] - coords0[0],
-                    rotate0[1] + coords1[1] - coords0[1],
-                ])
-                updatePaths(globe, graticule, geoPath);
-            })
-            .on('end', () => {
-                moving = false;
-                updatePaths(globe, graticule, geoPath);
-            })
-            // Goal: let zoom handle pinch gestures (not working correctly).
-            .filter(() => !(d3.event.touches && d3.event.touches.length === 2))
-        )
-
-    // var λ = d3.scaleLinear()
-    //     .domain([-width, width])
-    //     .range([-180, 180])
-
-    var globe = svg.append('g');
-
-    // Draw the sphere for the earth
-    globe.append("path")
-        .datum(sphere)
-        .attr("class", "sphere")
-        .attr("d", geoPath);
-    // draw a gradient sphere because it looks cool
-    globe.append("path")
-        .datum(sphere)
-        .attr("class", "gradient")
-        .attr("d", geoPath)
-
-    globe.append('path')
-        .datum(graticule)
-        .attr('class', 'graticule')
-        .attr('d', geoPath);
-
-    d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(function (world) {
-
-        var countries = topojson.feature(world, world.objects.countries).features;
-        d3.json('./assets/world_countries.json').then(data => {
-
+    const tip = d3.tip()
+        .attr('class', 'd3-tip')
+        .offset([-10, 0])
+        .html(d => `<strong style='color:red'>Country: </strong><span class='details'>${d.properties.name}<br></span><strong style='color:red'>Value: </strong><span class='details'>${mapCriteriaById[d.id]}</span>`);
+d3.select('svg').call(tip)
 
             // draw country outlines
-            globe.selectAll('.country')
-                .data(countries)
-                .data(data.features)
-                .enter()
-                .append('path')
+            d3.selectAll('.country')
 
-                .attr('class', 'country')
-                .attr('d', geoPath)
                 .style("fill", d => color(mapCriteriaById[d.id]))
 
                 .on('mouseover', function (d) {
@@ -217,11 +235,10 @@ function createMap(error, mapCriteria) {
                         .style('stroke-width', 0.3);
                 });
 
-        });
-    })
+}
 
 
-};
+
 
 function updatePaths(globe, graticule, geoPath) {
     globe.selectAll('path.graticule').attr('d', geoPath);

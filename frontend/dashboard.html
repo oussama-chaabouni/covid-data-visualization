@@ -42,8 +42,11 @@
 
 
     <div class="navbar-right">
-        <a class="about" href="#about"><img src="./assets/about-logo.svg" class="about-icon">About</a>
-        <a class="github" href="https://github.com/oussama-chaabouni/covid-data-visualization" target="_blank"><img src="./assets/github-logo.svg" class="github-icon">Github</a>
+        <a class="about"
+           href="http://localhost:63342/covid-data-visualization/frontend/about.html?_ijt=n268vs1vicos2gir9rr386kr3b"><img
+                src="./assets/about-logo.svg" class="about-icon">About</a>
+        <a class="github" href="https://github.com/oussama-chaabouni/covid-data-visualization" target="_blank"><img
+                src="./assets/github-logo.svg" class="github-icon">Github</a>
 
     </div>
 
@@ -54,7 +57,8 @@
     <a class="close">&times;</a>
     <div class="overlay__content">
         <a class="about-mobile"><img src="./assets/about-logo.svg" class="about-icon">About</a>
-        <a class="github-mobile"href="https://github.com/oussama-chaabouni/covid-data-visualization" target="_blank"><img src="./assets/github-logo.svg" class="github-icon">Github</a>
+        <a class="github-mobile" href="https://github.com/oussama-chaabouni/covid-data-visualization"
+           target="_blank"><img src="./assets/github-logo.svg" class="github-icon">Github</a>
     </div>
 </div>
 
@@ -118,6 +122,7 @@
     function refetchData(v) {
         console.log(v)
     }
+
     document.getElementById('end').valueAsDate = new Date();
     menuOpen.addEventListener('click', () => {
         overlay.classList.add('overlay--active');
@@ -129,17 +134,19 @@
     var begin = document.getElementById('start')
     var end = document.getElementById('end')
     var obj1 = {}
-    var obj2={}
-    function loadWorldData(crit,begin,end) {
-         begin = document.getElementById('start').value
-         end = document.getElementById('end').value
+    var obj2 = {}
+    loadWorldData("total_cases", begin.value, end.value)
+    var g = createMap(null, obj1)
+
+    function loadWorldData(crit, begin, end) {
+        begin = document.getElementById('start').value
+        end = document.getElementById('end').value
         d3.json('http://localhost:7070/worldData').then(data => {
 
-        Object.keys(data).forEach(elem=>{
-            obj2[elem]=data[elem].data.map((item) => Object.assign({}, item, {date: new Date(item.date)}))
-            obj2[elem]=data[elem].data.filter(item => item.date > begin && item.date < end)
-        })
-            console.log(obj2)
+            Object.keys(data).forEach(elem => {
+                obj2[elem] = data[elem].data.map((item) => Object.assign({}, item, {date: new Date(item.date)}))
+                obj2[elem] = data[elem].data.filter(item => item.date > begin && item.date < end)
+            })
             Object.keys(obj2).forEach(elem => {
                 var len = obj2[elem].length
                 for (var i = 0; i < len; i++) {
@@ -150,12 +157,14 @@
             "OWID_AFR OWID_ASI OWID_EUR OWID_EUN OWID_INT OWID_KOS OWID_NAM OWID_CYN OWID_OCE OWID_SAM OWID_WRL".split(" ")
                 .forEach(e => delete obj1[e]);
             //data = obj1
-            console.log(obj1)
-            createMap(null, obj1)
+
+            drawColors(g[0], g[1], obj1)
+
         })
+
+
     }
 
-    loadWorldData("total_cases",begin.value,end.value)
 
     d3.json('http://localhost:7070/countries').then(function (data) {
             var coutriesSelect = document.getElementById('cities');
@@ -174,24 +183,27 @@
 
     begin.onchange = function () {
         begin = document.getElementById('start')
+        end = document.getElementById('end')
         if (document.getElementById('radio1').checked === true) {
-            loadWorldData(document.querySelector(".selected").getAttribute('value'),begin.value,end.value)
-        }else{
-        console.log(begin.value)
+            loadWorldData(document.querySelector(".selected").getAttribute('value'), begin.value, end.value)
 
-        filterData(new Date(begin.value), new Date(end.value), document.querySelector(".selected").getAttribute('value'))
+
+        } else {
+
+            filterData(new Date(begin.value), new Date(end.value), document.querySelector(".selected").getAttribute('value'))
         }
     }
 
 
     end.onchange = function () {
+        begin = document.getElementById('start')
         end = document.getElementById('end')
         if (document.getElementById('radio1').checked === true) {
-            loadWorldData(document.querySelector(".selected").getAttribute('value'),begin.value,end.value)
-        }else{
+            loadWorldData(document.querySelector(".selected").getAttribute('value'), begin.value, end.value)
+        } else {
 
 
-        filterData(new Date(begin.value), new Date(end.value), document.querySelector(".selected").getAttribute('value'))
+            filterData(new Date(begin.value), new Date(end.value), document.querySelector(".selected").getAttribute('value'))
         }
     }
     d3.json('http://localhost:7070/criteria').then(function (data) {
@@ -235,8 +247,9 @@
                 var crit = 'total_vaccinations'
 
                 if (document.getElementById('radio1').checked === true) {
-
-                    loadWorldData(val)
+                    begin = document.getElementById('start')
+                    end = document.getElementById('end')
+                    loadWorldData(val, begin.value, end.value)
                     if (document.contains(document.getElementsByClassName("error")[0])) {
                         document.getElementsByClassName("error")[0].remove();
                     }
@@ -244,7 +257,9 @@
                 } else if (document.getElementById('radio2').checked === true) {
                     if (document.getElementById('cities').value !== '')
 
-                        filterData(new Date(begin.value), new Date(end.value), val)
+                    begin = document.getElementById('start')
+                    end = document.getElementById('end')
+                    filterData(new Date(begin.value), new Date(end.value), val)
                     d3.select(".svg_globe").remove();
 
                 }
@@ -273,15 +288,15 @@
         var d = document.getElementsByClassName('rect-d')[0];
         if (document.contains(document.getElementsByClassName("error")[0])) {
             document.getElementsByClassName("error")[0].remove();
-        }else{
+        } else {
             d3.select("svg").remove();
-        d.style.background = "transparent"
-        d3.select("h3").remove()
+            d.style.background = "transparent"
+            d3.select("h3").remove()
 
         }
-        loadWorldData(crit)
-
-            selected.innerHTML = "Total Cases",
+        loadWorldData("total_cases", begin.value, end.value)
+        var g = createMap(null, obj1)
+        selected.innerHTML = "Total Cases",
             selected.setAttribute('value', "total_cases")
 
     }

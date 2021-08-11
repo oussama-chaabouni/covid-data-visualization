@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+    <title>Title</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.0/d3-tip.js"
+            integrity="sha512-9WNL1D7EK7WwRB4smgvl1S2wEGeWP+xHjxEhzyUjasZZQGDUEPHBEkXgVKNcwxqqjzA7CnIEz/MhxiU79IdG1A=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="//d3js.org/d3-geo-projection.v1.min.js"></script>
+    <script src="//d3js.org/topojson.v2.min.js"></script>
+
+    <link rel="stylesheet" href="dashboard-style.css">
+</head>
+<body>
+<div class="navbar">
+
+    <a class="home" href="#home"><img src="./assets/home-logo.svg" class="home-icon">Home</a>
+
+
+    <div class="navbar-right">
+        <a class="about" href="#about"><img src="./assets/about-logo.svg" class="about-icon">About</a>
+        <a class="github" href="https://github.com/oussama-chaabouni/covid-data-visualization" target="_blank"><img src="./assets/github-logo.svg" class="github-icon">Github</a>
+
+    </div>
+
+    <a class="menu"><img src="./assets/menu.svg" id="menu-icon"></a>
+</div>
+
+<div class="overlay">
+    <a class="close">&times;</a>
+    <div class="overlay__content">
+        <a class="about-mobile"><img src="./assets/about-logo.svg" class="about-icon">About</a>
+        <a class="github-mobile"href="https://github.com/oussama-chaabouni/covid-data-visualization" target="_blank"><img src="./assets/github-logo.svg" class="github-icon">Github</a>
+    </div>
+</div>
+
+<div class="page-title">
+    <span class="title">About</span>
+
+
+
+</div>
+<footer>
+    <p>Data Source</p>
+    <p><a href="https://ourworldindata.org/" target="_blank">ourworldindata.org</a></p>
+</footer>
+</body>
+</html>
