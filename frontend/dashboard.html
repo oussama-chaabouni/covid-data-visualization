@@ -186,7 +186,8 @@
         end = document.getElementById('end')
         if (document.getElementById('radio1').checked === true) {
             loadWorldData(document.querySelector(".selected").getAttribute('value'), begin.value, end.value)
-
+            d3.selectAll(".d3-tip n").remove()
+            d3.selectAll(".d3-tip").remove()
 
         } else {
 
@@ -200,6 +201,8 @@
         end = document.getElementById('end')
         if (document.getElementById('radio1').checked === true) {
             loadWorldData(document.querySelector(".selected").getAttribute('value'), begin.value, end.value)
+            d3.selectAll(".d3-tip n").remove()
+            d3.selectAll(".d3-tip").remove()
         } else {
 
 
@@ -253,11 +256,12 @@
                     if (document.contains(document.getElementsByClassName("error")[0])) {
                         document.getElementsByClassName("error")[0].remove();
                     }
-
+                d3.selectAll(".d3-tip n").remove()
+                d3.selectAll(".d3-tip").remove()
                 } else if (document.getElementById('radio2').checked === true) {
                     if (document.getElementById('cities').value !== '')
 
-                    begin = document.getElementById('start')
+                        begin = document.getElementById('start')
                     end = document.getElementById('end')
                     filterData(new Date(begin.value), new Date(end.value), val)
                     d3.select(".svg_globe").remove();

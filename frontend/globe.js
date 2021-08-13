@@ -18,7 +18,74 @@ function createMap(error, mapCriteria) {
 
     //const format = d3.format(',');
 
+    const mapCriteriaById = {};
 
+    function calculate(array) {
+        const sum = array.reduce((acc, cur) => acc + cur);
+        const average = sum/array.length;
+        return Math.round(average);
+    }
+    Object.keys(mapCriteria).forEach(d => {
+        mapCriteriaById[d] = +calculate(mapCriteria[d]);
+    });
+
+
+    //data.features.forEach(d => { mapCriteria[d].data = mapCriteriaById[d] });
+    var arr = Object.values(mapCriteriaById);
+
+    const newArray = arr.filter(function (value) {
+        return !Number.isNaN(value);
+    });
+
+    newArray.sort(function (a, b) {
+        return a - b;
+    });
+
+    var max = Math.max(...newArray)
+    var min = Math.min(...newArray)
+
+
+    // var tab=[]
+    // newArray.reduce(function (sum, value,index) {
+    //     return tab[index/((newArray.length)/8)]=((sum + value)/(index+1));
+    // }, 0)
+    var tab = []
+
+
+    tab.sort(function (a, b) {
+        return a - b;
+    });
+
+    var step = Math.round(newArray.length / 7)
+    var colorRange = []
+    var i = 0;
+
+    newArray.forEach((elem, index) => {
+
+        if (index % step === 0) {
+            i = i + 1
+            colorRange[i] = newArray[index + 1]
+
+
+        }
+        colorRange.length = 7
+    })
+    colorRange[0] = min
+    colorRange[colorRange.length - 1] = max
+
+    const color = d3.scaleThreshold()
+        .domain(colorRange)
+        .range([
+            '#fcfbfd',
+            '#efedf5',
+            '#dadaeb',
+            '#bcbddc',
+            '#9e9ac8',
+            '#807dba',
+            '#6a51a3',
+            '#54278f',
+            '#3f007d'
+        ]);
 
 
     var width = 600,
@@ -33,7 +100,7 @@ function createMap(error, mapCriteria) {
     var svg = d3.select(".rect-d").append('svg')
         .attr("class", "svg_globe")
     // .style('border', '1px black solid')
-   // svg.call(tip);
+    // svg.call(tip);
     var projection = d3.geoOrthographic()
         .scale(scale)
         .translate([width / 2, height / 2])
@@ -122,21 +189,23 @@ function createMap(error, mapCriteria) {
         .attr('d', geoPath);
 
 
-        d3.json('./assets/world_countries.json').then(data => {
+    d3.json('./assets/world_countries.json').then(data => {
 
 
-            // draw country outlines
-            globe.selectAll('.country')
-                .data(data.features)
-                .enter()
-                .append('path')
+        // draw country outlines
+        globe.selectAll('.country')
+            .data(data.features)
+            .join(enter=>enter
+            .append('path')
 
-                .attr('class', 'country')
-                .attr('d', geoPath)
-                //.style("fill", d => color(mapCriteriaById[d.id]))
+            .attr('class', 'country')
+            .attr('d', geoPath),
+            (update) => {
+                globe.selectAll('.country').style("fill", d => color(mapCriteriaById[d.id]))
 
-
-        });
+    }
+            )
+    });
 
 
 
@@ -144,6 +213,14 @@ function createMap(error, mapCriteria) {
 };
 function drawColors(globe,geoPath,mapCriteria){
     const mapCriteriaById = {};
+    Object.keys(mapCriteria).forEach(key => {
+        var len = mapCriteria[key].length
+        for (var i = 0; i < len; i++) {
+        if (mapCriteria[key][i] === undefined) {
+             mapCriteria[key][i]=null;
+        }
+        }
+    })
 
     function calculate(array) {
         const sum = array.reduce((acc, cur) => acc + cur);
@@ -161,7 +238,6 @@ function drawColors(globe,geoPath,mapCriteria){
     const newArray = arr.filter(function (value) {
         return !Number.isNaN(value);
     });
-
     newArray.sort(function (a, b) {
         return a - b;
     });
@@ -215,25 +291,25 @@ function drawColors(globe,geoPath,mapCriteria){
         .attr('class', 'd3-tip')
         .offset([-10, 0])
         .html(d => `<strong style='color:red'>Country: </strong><span class='details'>${d.properties.name}<br></span><strong style='color:red'>Value: </strong><span class='details'>${mapCriteriaById[d.id]}</span>`);
-d3.select('svg').call(tip)
+    d3.select('svg').call(tip)
 
-            // draw country outlines
-            d3.selectAll('.country')
+    // draw country outlines
+    d3.selectAll('.country')
 
-                .style("fill", d => color(mapCriteriaById[d.id]))
+        .style("fill", d => color(mapCriteriaById[d.id]))
 
-                .on('mouseover', function (d) {
-                    tip.show(d);
-                    d3.select(this)
-                        .style('opacity', 1)
-                        .style('stroke-width', 3);
-                })
-                .on('mouseout', function (d) {
-                    tip.hide(d);
-                    d3.select(this)
-                        .style('opacity', 0.8)
-                        .style('stroke-width', 0.3);
-                });
+        .on('mouseover', function (d) {
+            tip.show(d);
+            d3.select(this)
+                .style('opacity', 1)
+                .style('stroke-width', 3);
+        })
+        .on('mouseout', function (d) {
+            tip.hide(d);
+            d3.select(this)
+                .style('opacity', 0.8)
+                .style('stroke-width', 0.3);
+        });
 
 }
 
